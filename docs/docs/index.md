@@ -1,6 +1,12 @@
-# alphakit
+<p align="center">
+  <img src="assets/logo.png" alt="alphakit" width="200">
+</p>
 
-**From raw market data to ML-ready features in five lines of code.**
+<h1 align="center">alphakit</h1>
+
+<p align="center">
+  <strong>From raw market data to ML-ready features in five lines of code.</strong>
+</p>
 
 alphakit is a Polars-first Python toolkit for financial data processing, feature engineering, and AI agent integration.
 

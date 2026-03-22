@@ -6,8 +6,8 @@ repo_name: zawster/alphakit
 
 theme:
   name: material
-  logo: docs/assets/logo.jpeg
-  favicon: docs/assets/logo.jpeg
+  logo: assets/logo.png
+  favicon: assets/logo.png
   palette:
     - scheme: slate
       primary: indigo

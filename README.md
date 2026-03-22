@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/docs/assets/logo.jpeg" alt="alphakit" width="200">
+  <img src="docs/docs/assets/logo.png" alt="alphakit" width="200">
 </p>
 
 <h1 align="center">alphakit</h1>
