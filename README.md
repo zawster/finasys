@@ -13,7 +13,13 @@
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python"></a>
 </p>
 
-A Polars-first Python toolkit for financial data processing, feature engineering, and AI agent integration.
+**Documentation:** [alphakit Docs](https://zawster.github.io/alphakit)
+
+---
+
+alphakit is a toolkit for *financial data processing — not manual wrangling — for ML pipelines and AI agents*. It lets you go from **raw market data to production-ready features** in a few lines of code, whether you're building trading models, running portfolio analysis, or powering financial AI agents.
+
+alphakit is **Polars-first** — every indicator and feature runs as a native Polars expression, making it 10-100x faster than pandas-based alternatives with **zero C dependencies** (no ta-lib build headaches). It supports **37+ international markets**, crypto, forex, commodities, and macro indicators out of the box. Learn more via our [official documentation](https://zawster.github.io/alphakit) or start contributing via this GitHub repo.
 
 ## Quick Start
 
