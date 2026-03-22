@@ -1,7 +1,6 @@
-<h1 align="center">
-  <img src="docs/docs/assets/logo.png" alt="alphakit" width="60" style="vertical-align: middle;">&nbsp;
-  alphakit
-</h1>
+<div align="center">
+<table><tr><td valign="middle"><img src="docs/docs/assets/logo.png" alt="alphakit" width="55"></td><td valign="middle"><h1>alphakit</h1></td></tr></table>
+</div>
 
 <p align="center">
   <strong>From raw market data to ML-ready features in five lines of code.</strong>
