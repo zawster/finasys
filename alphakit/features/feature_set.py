@@ -32,6 +32,7 @@ class RSI(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.indicators import rsi
+
         return rsi(df, **self.params)
 
 
@@ -41,6 +42,7 @@ class MACD(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.indicators import macd
+
         return macd(df, **self.params)
 
 
@@ -50,6 +52,7 @@ class BollingerBands(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.indicators import bollinger
+
         return bollinger(df, **self.params)
 
 
@@ -59,6 +62,7 @@ class ATR(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.indicators import atr
+
         return atr(df, **self.params)
 
 
@@ -68,6 +72,7 @@ class Returns(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.returns import returns
+
         return returns(df, **self.params)
 
 
@@ -77,6 +82,7 @@ class LogReturns(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.returns import log_returns
+
         return log_returns(df, **self.params)
 
 
@@ -91,6 +97,7 @@ class RollingStats(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.rolling import rolling_stats
+
         return rolling_stats(df, **self.params)
 
 
@@ -100,6 +107,7 @@ class Lags(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.lags import lags
+
         return lags(df, **self.params)
 
 
@@ -109,6 +117,7 @@ class Calendar(FeatureStep):
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
         from alphakit.features.calendar import calendar_features
+
         return calendar_features(df, **self.params)
 
 

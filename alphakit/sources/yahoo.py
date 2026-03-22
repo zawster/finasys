@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date
 
 import polars as pl
 import yfinance as yf
@@ -57,8 +57,7 @@ def fetch_yahoo(
     df = df.with_columns(pl.lit(symbol.upper()).alias("symbol"))
 
     # Keep only standard columns (drop dividends, stock splits, etc.)
-    keep = [c for c in ["timestamp", "open", "high", "low", "close", "volume", "symbol"]
-            if c in df.columns]
+    keep = [c for c in ["timestamp", "open", "high", "low", "close", "volume", "symbol"] if c in df.columns]
     df = df.select(keep)
 
     # Ensure timestamp is Date type for daily data
@@ -91,9 +90,7 @@ def fetch_yahoo_multi(
             errors.append(str(e))
 
     if not frames:
-        raise ValueError(
-            f"No data returned for any symbols. Errors: {'; '.join(errors)}"
-        )
+        raise ValueError(f"No data returned for any symbols. Errors: {'; '.join(errors)}")
 
     result = pl.concat(frames, how="vertical_relaxed")
     return result.sort(["timestamp", "symbol"])

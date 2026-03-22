@@ -1,12 +1,6 @@
 """Tests for FeatureSet pipeline."""
 
-import json
-from pathlib import Path
-
-import polars as pl
-import pytest
-
-from alphakit.features import FeatureSet, RSI, MACD, Returns, RollingStats
+from alphakit.features import MACD, RSI, FeatureSet, Returns
 
 
 def test_feature_set_transform(ohlcv_df):

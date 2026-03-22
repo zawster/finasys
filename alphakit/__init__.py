@@ -18,11 +18,13 @@ Quick start::
     summary = ak.agents.summarize(df)
 """
 
+from alphakit import (
+    agents,  # noqa: F401
+    features,  # noqa: F401
+)
 from alphakit.__metadata__ import __version__
-from alphakit.sources import cache_clear, load
-from alphakit import features  # noqa: F401
-from alphakit import agents  # noqa: F401
 from alphakit.features.feature_set import FeatureSet
+from alphakit.sources import cache_clear, load
 
 __all__ = [
     "__version__",

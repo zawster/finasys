@@ -1,7 +1,5 @@
 """Tests for the add_all convenience function."""
 
-import polars as pl
-
 from alphakit.features import add_all
 
 

@@ -54,10 +54,7 @@ def rolling_stats(
                 std = col.rolling_std(window_size=w)
                 expr = ((col - mean) / std).alias(f"rolling_zscore_{w}")
             else:
-                raise ValueError(
-                    f"Unknown stat: '{stat}'. "
-                    f"Options: mean, std, min, max, skew, zscore"
-                )
+                raise ValueError(f"Unknown stat: '{stat}'. Options: mean, std, min, max, skew, zscore")
             exprs.append(symbol_aware(expr, df))
 
     return df.with_columns(exprs)

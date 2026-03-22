@@ -22,10 +22,10 @@ from pathlib import Path
 
 import polars as pl
 
-from alphakit.utils.types import Backend, Ticker
 from alphakit.sources.cache import cache_clear, cache_get, cache_put
 from alphakit.sources.local import load_local
 from alphakit.sources.yahoo import fetch_yahoo, fetch_yahoo_multi
+from alphakit.utils.types import Backend, Ticker
 
 
 def load(

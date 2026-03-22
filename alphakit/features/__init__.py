@@ -19,9 +19,25 @@ Composable pipeline:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import polars as pl
+
+from alphakit.features.calendar import calendar_features
+from alphakit.features.cross import cross_percentile, cross_rank, cross_zscore
+
+# --- Composable step classes (PascalCase) ---
+from alphakit.features.feature_set import (
+    ATR,
+    MACD,
+    RSI,
+    BollingerBands,
+    Calendar,
+    FeatureSet,
+    FeatureStep,
+    Lags,
+    LogReturns,
+    Returns,
+    RollingStats,
+)
 
 # --- Functional API (lowercase) ---
 from alphakit.features.indicators import (
@@ -41,6 +57,7 @@ from alphakit.features.indicators import (
     vwap,
     williams_r,
 )
+from alphakit.features.lags import lags, validate_no_lookahead
 from alphakit.features.returns import (
     cumulative_returns,
     drawdown,
@@ -48,24 +65,6 @@ from alphakit.features.returns import (
     returns,
 )
 from alphakit.features.rolling import rolling_stats
-from alphakit.features.lags import lags, validate_no_lookahead
-from alphakit.features.calendar import calendar_features
-from alphakit.features.cross import cross_percentile, cross_rank, cross_zscore
-
-# --- Composable step classes (PascalCase) ---
-from alphakit.features.feature_set import (
-    ATR,
-    MACD,
-    RSI,
-    BollingerBands,
-    Calendar,
-    FeatureSet,
-    FeatureStep,
-    Lags,
-    LogReturns,
-    Returns,
-    RollingStats,
-)
 
 
 def add_all(
@@ -106,10 +105,12 @@ def add_all(
 
     if returns_:
         from alphakit.features.returns import returns as _returns
+
         df = _returns(df, periods=[1, 5, 21])
 
     if lags_ is not None:
         from alphakit.features.lags import lags as _lags
+
         df = _lags(df, columns=["close"], lags=lags_)
 
     if rolling_windows is not None:
@@ -128,16 +129,44 @@ def add_all(
 
 __all__ = [
     # Functional API
-    "sma", "ema", "rsi", "macd", "bollinger", "atr", "vwap", "obv",
-    "stochastic", "adx", "cci", "williams_r", "mfi", "roc", "momentum",
-    "returns", "log_returns", "cumulative_returns", "drawdown",
+    "sma",
+    "ema",
+    "rsi",
+    "macd",
+    "bollinger",
+    "atr",
+    "vwap",
+    "obv",
+    "stochastic",
+    "adx",
+    "cci",
+    "williams_r",
+    "mfi",
+    "roc",
+    "momentum",
+    "returns",
+    "log_returns",
+    "cumulative_returns",
+    "drawdown",
     "rolling_stats",
-    "lags", "validate_no_lookahead",
+    "lags",
+    "validate_no_lookahead",
     "calendar_features",
-    "cross_rank", "cross_percentile", "cross_zscore",
+    "cross_rank",
+    "cross_percentile",
+    "cross_zscore",
     # Composable steps
-    "RSI", "MACD", "BollingerBands", "ATR", "Returns", "LogReturns",
-    "RollingStats", "Lags", "Calendar", "FeatureSet", "FeatureStep",
+    "RSI",
+    "MACD",
+    "BollingerBands",
+    "ATR",
+    "Returns",
+    "LogReturns",
+    "RollingStats",
+    "Lags",
+    "Calendar",
+    "FeatureSet",
+    "FeatureStep",
     # Convenience
     "add_all",
 ]

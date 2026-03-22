@@ -1,6 +1,5 @@
 """Tests for the ak.load() dispatcher and local file loading."""
 
-import tempfile
 from pathlib import Path
 
 import polars as pl
@@ -76,4 +75,5 @@ def test_load_pandas_backend(ohlcv_df: pl.DataFrame, tmp_path: Path):
     result = load(str(csv_path), backend="pandas")
 
     import pandas as pd
+
     assert isinstance(result, pd.DataFrame)

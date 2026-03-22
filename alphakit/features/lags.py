@@ -86,9 +86,7 @@ def validate_no_lookahead(
 
         # Check if values match (allowing for NaN == NaN)
         mismatches = comparison.filter(
-            col_full.is_not_null()
-            & col_partial.is_not_null()
-            & ((col_full - col_partial).abs() > 1e-10)
+            col_full.is_not_null() & col_partial.is_not_null() & ((col_full - col_partial).abs() > 1e-10)
         )
 
         if mismatches.height > 0:

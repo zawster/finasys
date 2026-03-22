@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, Union
+from typing import Literal
 
 import polars as pl
 
@@ -13,7 +13,7 @@ PolarsFrame = pl.DataFrame | pl.LazyFrame
 Backend = Literal["polars", "pandas"]
 
 # Ticker can be a single string or list of strings
-Ticker = Union[str, list[str]]
+Ticker = str | list[str]
 
 # Standard OHLCV column names used throughout alphakit
 OHLCV_COLUMNS = ["timestamp", "open", "high", "low", "close", "volume"]

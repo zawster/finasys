@@ -29,12 +29,12 @@ def create_tools(symbols: list[str] | None = None) -> list[Any]:
 
     def _lookup_price(symbol: str, start: str | None = None, end: str | None = None) -> str:
         from alphakit.agents.tools import execute_tool
+
         return execute_tool("lookup_price", {"symbol": symbol, "start": start, "end": end})
 
-    def _get_indicators(
-        symbol: str, indicators: list[str] | None = None, start: str | None = None
-    ) -> str:
+    def _get_indicators(symbol: str, indicators: list[str] | None = None, start: str | None = None) -> str:
         from alphakit.agents.tools import execute_tool
+
         return execute_tool(
             "get_technical_indicators",
             {"symbol": symbol, "indicators": indicators or ["rsi", "macd", "bollinger"], "start": start},
@@ -42,6 +42,7 @@ def create_tools(symbols: list[str] | None = None) -> list[Any]:
 
     def _get_summary(symbol: str, days: int = 252) -> str:
         from alphakit.agents.tools import execute_tool
+
         return execute_tool("get_summary", {"symbol": symbol, "days": days})
 
     symbol_note = ""

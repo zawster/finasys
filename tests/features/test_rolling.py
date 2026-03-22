@@ -1,6 +1,5 @@
 """Tests for rolling statistics."""
 
-import polars as pl
 import pytest
 
 from alphakit.features import rolling_stats

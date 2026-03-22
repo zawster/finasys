@@ -57,11 +57,7 @@ def rsi(df: pl.DataFrame, period: int = 14, column: str = "close") -> pl.DataFra
     expr = (
         pl.lit(100)
         - pl.lit(100)
-        / (
-            pl.lit(1)
-            + gain.ewm_mean(span=period, adjust=False)
-            / loss.ewm_mean(span=period, adjust=False)
-        )
+        / (pl.lit(1) + gain.ewm_mean(span=period, adjust=False) / loss.ewm_mean(span=period, adjust=False))
     ).alias(f"rsi_{period}")
 
     return df.with_columns(symbol_aware(expr, df))
@@ -87,12 +83,8 @@ def macd(
     macd_line = fast_ema - slow_ema
 
     line_expr = symbol_aware(macd_line.alias("macd_line"), df)
-    signal_expr = symbol_aware(
-        macd_line.ewm_mean(span=signal, adjust=False).alias("macd_signal"), df
-    )
-    hist_expr = symbol_aware(
-        (macd_line - macd_line.ewm_mean(span=signal, adjust=False)).alias("macd_hist"), df
-    )
+    signal_expr = symbol_aware(macd_line.ewm_mean(span=signal, adjust=False).alias("macd_signal"), df)
+    hist_expr = symbol_aware((macd_line - macd_line.ewm_mean(span=signal, adjust=False)).alias("macd_hist"), df)
 
     return df.with_columns(line_expr, signal_expr, hist_expr)
 
@@ -162,17 +154,19 @@ def obv(df: pl.DataFrame) -> pl.DataFrame:
     Cumulative sum of volume, adding volume on up days
     and subtracting on down days.
     """
-    direction = pl.when(pl.col("close") > pl.col("close").shift(1)).then(1).when(
-        pl.col("close") < pl.col("close").shift(1)
-    ).then(-1).otherwise(0)
+    direction = (
+        pl.when(pl.col("close") > pl.col("close").shift(1))
+        .then(1)
+        .when(pl.col("close") < pl.col("close").shift(1))
+        .then(-1)
+        .otherwise(0)
+    )
 
     expr = (direction * pl.col("volume")).cum_sum().alias("obv")
     return df.with_columns(symbol_aware(expr, df))
 
 
-def stochastic(
-    df: pl.DataFrame, k_period: int = 14, d_period: int = 3
-) -> pl.DataFrame:
+def stochastic(df: pl.DataFrame, k_period: int = 14, d_period: int = 3) -> pl.DataFrame:
     """Stochastic Oscillator (%K and %D).
 
     %K = (close - lowest_low) / (highest_high - lowest_low) * 100
@@ -200,12 +194,8 @@ def adx(df: pl.DataFrame, period: int = 14) -> pl.DataFrame:
     prev_high = high.shift(1)
     prev_low = low.shift(1)
 
-    plus_dm = pl.when((high - prev_high) > (prev_low - low)).then(
-        (high - prev_high).clip(lower_bound=0)
-    ).otherwise(0)
-    minus_dm = pl.when((prev_low - low) > (high - prev_high)).then(
-        (prev_low - low).clip(lower_bound=0)
-    ).otherwise(0)
+    plus_dm = pl.when((high - prev_high) > (prev_low - low)).then((high - prev_high).clip(lower_bound=0)).otherwise(0)
+    minus_dm = pl.when((prev_low - low) > (high - prev_high)).then((prev_low - low).clip(lower_bound=0)).otherwise(0)
 
     prev_close = pl.col("close").shift(1)
     tr = pl.max_horizontal(
@@ -218,7 +208,7 @@ def adx(df: pl.DataFrame, period: int = 14) -> pl.DataFrame:
     plus_di = plus_dm.ewm_mean(span=period, adjust=False) / atr_smooth * 100
     minus_di = minus_dm.ewm_mean(span=period, adjust=False) / atr_smooth * 100
 
-    dx = ((plus_di - minus_di).abs() / (plus_di + minus_di) * 100)
+    dx = (plus_di - minus_di).abs() / (plus_di + minus_di) * 100
 
     return df.with_columns(
         symbol_aware(plus_di.alias("plus_di"), df),

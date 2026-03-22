@@ -5,9 +5,7 @@ from __future__ import annotations
 import polars as pl
 
 
-def cross_rank(
-    df: pl.DataFrame, column: str = "close", method: str = "ordinal"
-) -> pl.DataFrame:
+def cross_rank(df: pl.DataFrame, column: str = "close", method: str = "ordinal") -> pl.DataFrame:
     """Rank values across symbols at each timestamp.
 
     For multi-symbol DataFrames, ranks the given column within
@@ -18,12 +16,7 @@ def cross_rank(
         column: Column to rank across symbols.
         method: Ranking method -- "ordinal", "min", "max", "dense", "average".
     """
-    return df.with_columns(
-        pl.col(column)
-        .rank(method=method)
-        .over("timestamp")
-        .alias(f"{column}_rank")
-    )
+    return df.with_columns(pl.col(column).rank(method=method).over("timestamp").alias(f"{column}_rank"))
 
 
 def cross_percentile(df: pl.DataFrame, column: str = "close") -> pl.DataFrame:
@@ -32,10 +25,9 @@ def cross_percentile(df: pl.DataFrame, column: str = "close") -> pl.DataFrame:
     Values range from 0 to 1, where 1 is the highest value.
     """
     return df.with_columns(
-        (
-            pl.col(column).rank(method="average").over("timestamp")
-            / pl.col(column).count().over("timestamp")
-        ).alias(f"{column}_percentile")
+        (pl.col(column).rank(method="average").over("timestamp") / pl.col(column).count().over("timestamp")).alias(
+            f"{column}_percentile"
+        )
     )
 
 
@@ -45,8 +37,7 @@ def cross_zscore(df: pl.DataFrame, column: str = "close") -> pl.DataFrame:
     Standardizes values relative to the cross-sectional mean and std.
     """
     return df.with_columns(
-        (
-            (pl.col(column) - pl.col(column).mean().over("timestamp"))
-            / pl.col(column).std().over("timestamp")
-        ).alias(f"{column}_zscore")
+        ((pl.col(column) - pl.col(column).mean().over("timestamp")) / pl.col(column).std().over("timestamp")).alias(
+            f"{column}_zscore"
+        )
     )

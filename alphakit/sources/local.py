@@ -43,10 +43,7 @@ def load_local(path: str | Path) -> pl.DataFrame:
     elif suffix == ".json":
         df = pl.read_json(path)
     else:
-        raise ValueError(
-            f"Unsupported file format: '{suffix}'. "
-            f"Supported formats: .csv, .parquet, .pq, .json"
-        )
+        raise ValueError(f"Unsupported file format: '{suffix}'. Supported formats: .csv, .parquet, .pq, .json")
 
     # Standardize column names
     df = standardize_columns(df)

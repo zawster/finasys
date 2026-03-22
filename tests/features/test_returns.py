@@ -1,8 +1,5 @@
 """Tests for return calculations."""
 
-import polars as pl
-import pytest
-
 from alphakit.features import cumulative_returns, drawdown, log_returns, returns
 
 

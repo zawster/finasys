@@ -67,9 +67,7 @@ def cast_ohlcv_types(df: pl.DataFrame) -> pl.DataFrame:
                 df = df.with_columns(pl.col("timestamp").str.to_date().alias("timestamp"))
             except Exception:
                 try:
-                    df = df.with_columns(
-                        pl.col("timestamp").str.to_datetime().alias("timestamp")
-                    )
+                    df = df.with_columns(pl.col("timestamp").str.to_datetime().alias("timestamp"))
                 except Exception:
                     pass  # Leave as string if parsing fails
 

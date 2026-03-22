@@ -28,9 +28,7 @@ def tools(symbols: list[str] | None = None) -> list[dict[str, Any]]:
             "type": "function",
             "function": {
                 "name": "lookup_price",
-                "description": (
-                    f"Get current and historical price data for a stock symbol.{symbol_desc}"
-                ),
+                "description": (f"Get current and historical price data for a stock symbol.{symbol_desc}"),
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -87,9 +85,7 @@ def tools(symbols: list[str] | None = None) -> list[dict[str, Any]]:
             "type": "function",
             "function": {
                 "name": "compare_symbols",
-                "description": (
-                    "Compare price performance and key metrics across multiple stock symbols."
-                ),
+                "description": ("Compare price performance and key metrics across multiple stock symbols."),
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -194,7 +190,7 @@ def execute_tool(tool_name: str, arguments: dict[str, Any]) -> str:
             ret_21 = sym_df[ret_col].item(-1) if ret_col in sym_df.columns else None
             line = f"{sym}: ${current:.2f}"
             if ret_21 is not None:
-                line += f" (21d return: {ret_21*100:+.1f}%)"
+                line += f" (21d return: {ret_21 * 100:+.1f}%)"
             summary_parts.append(line)
 
         return "\n".join(summary_parts) if summary_parts else "No data available"

@@ -29,8 +29,7 @@ def get_tools(symbols: list[str] | None = None) -> list[Any]:
         from alphakit.agents.langchain.tools import create_tools
     except ImportError:
         raise ImportError(
-            "LangChain integration requires langchain-core. "
-            "Install it with: pip install alphakit[langchain]"
+            "LangChain integration requires langchain-core. Install it with: pip install alphakit[langchain]"
         )
 
     return create_tools(symbols=symbols)

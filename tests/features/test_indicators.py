@@ -1,8 +1,5 @@
 """Tests for technical indicators."""
 
-import polars as pl
-import pytest
-
 from alphakit.features import (
     atr,
     bollinger,
@@ -143,6 +140,7 @@ class TestOtherIndicators:
 
     def test_adx(self, ohlcv_df):
         from alphakit.features import adx
+
         result = adx(ohlcv_df)
         assert "adx_14" in result.columns
         assert "plus_di" in result.columns

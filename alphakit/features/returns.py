@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-import numpy as np
 import polars as pl
 
-from alphakit.features.utils import has_multi_symbols, symbol_aware
+from alphakit.features.utils import symbol_aware
 
 
 def returns(
@@ -62,9 +61,7 @@ def log_returns(
     return df.with_columns(exprs)
 
 
-def cumulative_returns(
-    df: pl.DataFrame, column: str = "close"
-) -> pl.DataFrame:
+def cumulative_returns(df: pl.DataFrame, column: str = "close") -> pl.DataFrame:
     """Cumulative returns from the first data point.
 
     Calculated as (current_price / first_price) - 1.

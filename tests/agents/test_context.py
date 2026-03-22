@@ -16,6 +16,7 @@ class TestContext:
     def test_context_json_format(self, ohlcv_df):
         result = context(ohlcv_df, "current price", format="json")
         import json
+
         parsed = json.loads(result)
         assert isinstance(parsed, list)
 

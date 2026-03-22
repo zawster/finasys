@@ -12,6 +12,7 @@ def test_summarize_basic(ohlcv_df):
 
 def test_summarize_with_indicators(ohlcv_df):
     from alphakit.features import add_all
+
     df = add_all(ohlcv_df)
     result = summarize(df)
 

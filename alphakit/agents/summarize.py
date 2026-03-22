@@ -71,7 +71,7 @@ def summarize(df: pl.DataFrame, max_tokens: int | None = None) -> str:
         if df.height >= 21:
             daily_returns = close.pct_change().drop_nulls()
             if daily_returns.len() > 0:
-                vol = daily_returns.std() * (252 ** 0.5) * 100
+                vol = daily_returns.std() * (252**0.5) * 100
                 parts.append(f"Volatility (annualized): {vol:.1f}%")
 
     # Technical indicators if present

@@ -55,9 +55,9 @@ def context(
     if _matches_any(query_lower, ["return", "performance", "gain", "loss"]):
         relevant_cols.extend([c for c in df.columns if "return" in c])
     if _matches_any(query_lower, ["momentum", "trend", "direction"]):
-        relevant_cols.extend([c for c in df.columns if c in (
-            "rsi_14", "macd_line", "macd_signal", "sma_50", "momentum_10"
-        )])
+        relevant_cols.extend(
+            [c for c in df.columns if c in ("rsi_14", "macd_line", "macd_signal", "sma_50", "momentum_10")]
+        )
     if _matches_any(query_lower, ["volatil", "risk", "atr"]):
         relevant_cols.extend([c for c in df.columns if "atr" in c or "std" in c])
     if _matches_any(query_lower, ["drawdown"]):
@@ -87,6 +87,7 @@ def context(
     # Format output
     if format == "json":
         import json as _json
+
         # Convert to list of dicts using Polars (no pandas needed)
         rows = subset.to_dicts()
         # Convert date/datetime objects to strings for JSON serialization
