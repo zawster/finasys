@@ -1,8 +1,7 @@
 <p align="center">
-  <img src="assets/logo.png" alt="alphakit" width="200">
+  <img src="assets/logo.png" alt="alphakit" width="80" style="vertical-align: middle; margin-right: 12px;">
+  <span style="font-size: 3rem; font-weight: 700; vertical-align: middle;">alphakit</span>
 </p>
-
-<h1 align="center">alphakit</h1>
 
 <p align="center">
   <strong>From raw market data to ML-ready features in five lines of code.</strong>
