@@ -1,0 +1,37 @@
+site_name: alphakit
+site_description: Financial data processing, feature engineering and AI agent toolkit for Python
+site_url: https://zawster.github.io/alphakit
+repo_url: https://github.com/zawster/alphakit
+repo_name: zawster/alphakit
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: amber
+  features:
+    - content.code.copy
+    - navigation.sections
+    - navigation.expand
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - API Reference:
+      - Sources: api/sources.md
+      - Features: api/features.md
+      - Agents: api/agents.md
+  - Tutorials:
+      - Feature Pipeline: tutorials/feature_pipeline.md
+      - AI Agent Integration: tutorials/agent_integration.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - toc:
+      permalink: true

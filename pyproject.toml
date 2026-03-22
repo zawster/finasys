@@ -1,0 +1,104 @@
+[build-system]
+requires = ["setuptools>=77.0.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alphakit"
+version = "0.1.0"
+description = "Financial data processing, feature engineering and AI agent toolkit for Python"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ahsan" },
+]
+keywords = [
+    "finance",
+    "stocks",
+    "machine-learning",
+    "feature-engineering",
+    "polars",
+    "ai-agents",
+    "quantitative-finance",
+    "technical-indicators",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+dependencies = [
+    "polars>=1.0",
+    "duckdb>=0.10",
+    "yfinance>=0.2.30",
+    "numpy>=1.24",
+    "pydantic>=2.0",
+    "httpx>=0.25",
+]
+
+[project.optional-dependencies]
+pandas = ["pandas>=2.0"]
+langchain = ["langchain-core>=0.2"]
+openai = ["openai>=1.0"]
+all = ["alphakit[pandas,langchain,openai]"]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pandas>=2.0",
+    "pyarrow>=15.0",
+    "ruff>=0.4.0",
+    "pre-commit>=3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/zawster/alphakit"
+Documentation = "https://zawster.github.io/alphakit"
+Repository = "https://github.com/zawster/alphakit"
+Issues = "https://github.com/zawster/alphakit/issues"
+
+[tool.setuptools.packages.find]
+include = ["alphakit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "network: tests that require network access (deselect with '-m not network')",
+]
+
+[tool.coverage.run]
+source = ["alphakit"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["alphakit"]
+
+[tool.ruff.format]
+quote-style = "double"
