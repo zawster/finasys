@@ -1,6 +1,18 @@
-# alphakit
+<p align="center">
+  <img src="docs/docs/assets/logo.jpeg" alt="alphakit" width="200">
+</p>
 
-**From raw market data to ML-ready features in five lines of code.**
+<h1 align="center">alphakit</h1>
+
+<p align="center">
+  <strong>From raw market data to ML-ready features in five lines of code.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/zawster/alphakit/actions"><img src="https://github.com/zawster/alphakit/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+  <a href="https://github.com/zawster/alphakit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python"></a>
+</p>
 
 A Polars-first Python toolkit for financial data processing, feature engineering, and AI agent integration.
 
