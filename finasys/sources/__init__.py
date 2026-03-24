@@ -114,10 +114,13 @@ def _load_multi_ticker(
     if use_cache:
         frames = []
         to_fetch = []
+        standard_cols = ["timestamp", "open", "high", "low", "close", "volume", "symbol"]
         for sym in symbols:
             cached = cache_get(sym, start, end)
             if cached is not None and not cached.is_empty():
-                frames.append(cached)
+                # Reorder columns to match standard order
+                available = [c for c in standard_cols if c in cached.columns]
+                frames.append(cached.select(available))
             else:
                 to_fetch.append(sym)
 
