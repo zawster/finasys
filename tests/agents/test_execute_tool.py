@@ -1,0 +1,116 @@
+"""Tests for agents.execute_tool() and context edge cases."""
+
+
+class TestExecuteTool:
+    """Test execute_tool with mocked data (no network)."""
+
+    def test_unknown_tool(self):
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("nonexistent_tool", {})
+        assert "Unknown tool" in result
+
+    def test_lookup_price(self, ohlcv_df, tmp_path, monkeypatch):
+        """Mock fs.load to avoid network calls."""
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("lookup_price", {"symbol": "TEST"})
+        assert isinstance(result, str)
+        assert len(result) > 0
+
+    def test_get_technical_indicators(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool(
+            "get_technical_indicators",
+            {"symbol": "TEST", "indicators": ["rsi", "macd"]},
+        )
+        assert isinstance(result, str)
+
+    def test_compare_symbols(self, multi_symbol_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: multi_symbol_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("compare_symbols", {"symbols": ["AAPL", "GOOGL"]})
+        assert isinstance(result, str)
+
+    def test_get_summary(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("get_summary", {"symbol": "TEST", "days": 50})
+        assert isinstance(result, str)
+        assert "$" in result
+
+
+class TestContextEdgeCases:
+    """Cover remaining keyword paths in context()."""
+
+    def test_trend_query(self, ohlcv_df):
+        from finasys.agents.context import context
+        from finasys.features import add_all
+
+        df = add_all(ohlcv_df)
+        result = context(df, "What is the trend direction?")
+        assert isinstance(result, str)
+
+    def test_compare_query(self, ohlcv_df):
+        from finasys.agents.context import context
+
+        result = context(ohlcv_df, "Compare vs other stocks")
+        assert isinstance(result, str)
+
+    def test_risk_drawdown_query(self, ohlcv_df):
+        from finasys.agents.context import context
+        from finasys.features import drawdown
+
+        df = drawdown(ohlcv_df)
+        result = context(df, "What is the drawdown risk?")
+        assert isinstance(result, str)
+        assert "drawdown" in result.lower()
+
+    def test_return_performance_query(self, ohlcv_df):
+        from finasys.agents.context import context
+        from finasys.features import returns
+
+        df = returns(ohlcv_df, periods=[1, 5])
+        result = context(df, "What is the return performance?")
+        assert isinstance(result, str)
+
+    def test_bollinger_query(self, ohlcv_df):
+        from finasys.agents.context import context
+        from finasys.features import bollinger
+
+        df = bollinger(ohlcv_df)
+        result = context(df, "Show the bollinger bands")
+        assert isinstance(result, str)
+
+    def test_rsi_query(self, ohlcv_df):
+        from finasys.agents.context import context
+        from finasys.features import rsi
+
+        df = rsi(ohlcv_df)
+        result = context(df, "Is it overbought based on RSI?")
+        assert isinstance(result, str)
+
+    def test_all_history_query(self, ohlcv_df):
+        from finasys.agents.context import context
+
+        result = context(ohlcv_df, "Show the full history")
+        assert isinstance(result, str)
+
+    def test_max_tokens_truncation(self, ohlcv_df):
+        from finasys.agents.context import context
+
+        result = context(ohlcv_df, "price", max_tokens=20)
+        assert len(result) <= 120  # 20 tokens * 4 chars + some slack

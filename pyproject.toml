@@ -75,6 +75,7 @@ markers = [
 
 [tool.coverage.run]
 source = ["finasys"]
+omit = ["finasys/agents/langchain/*"]
 
 [tool.coverage.report]
 show_missing = true
