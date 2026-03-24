@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/zawster/finasys/main/docs/docs/assets/logo.png" alt="finasys" width="200">
+  <img src="https://raw.githubusercontent.com/zawster/finasys/main/docs/docs/assets/logo_wide.png" alt="finasys" width="200">
 </p>
-<h1 align="center">finasys</h1>
 
 <p align="center">
   <strong>From raw market data to ML-ready features in five lines of code.</strong>
