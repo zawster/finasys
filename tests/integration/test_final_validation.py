@@ -1249,7 +1249,7 @@ class TestVersion:
         import finasys as fs
 
         assert hasattr(fs, "__version__")
-        assert fs.__version__ == "0.1.0"
+        assert fs.__version__ == "0.1.2"
 
 
 # ============================================================
