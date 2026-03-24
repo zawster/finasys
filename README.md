@@ -11,7 +11,7 @@
   <a href="https://pypi.org/project/finasys/"><img src="https://img.shields.io/pypi/v/finasys.svg" alt="PyPI"></a>
   <a href="https://github.com/zawster/finasys/actions"><img src="https://github.com/zawster/finasys/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
   <a href="https://codecov.io/gh/zawster/finasys"><img src="https://codecov.io/gh/zawster/finasys/branch/main/graph/badge.svg" alt="Coverage"></a>
-  <a href="https://github.com/zawster/finasys/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="https://github.com/zawster/finasys/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python"></a>
 </p>
 
@@ -123,4 +123,4 @@ lc_tools = get_tools(symbols=["AAPL"])
 
 ## License
 
-MIT
+Apache-2.0
