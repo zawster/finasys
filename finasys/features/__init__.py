@@ -1,18 +1,18 @@
-"""alphakit.features -- Financial feature engineering.
+"""finasys.features -- Financial feature engineering.
 
 Provides both a functional API and composable FeatureStep classes.
 
 Functional API:
-    import alphakit as ak
-    df = ak.features.rsi(df, period=14)
-    df = ak.features.macd(df)
-    df = ak.features.returns(df, periods=[1, 5, 21])
+    import finasys as fs
+    df = fs.features.rsi(df, period=14)
+    df = fs.features.macd(df)
+    df = fs.features.returns(df, periods=[1, 5, 21])
 
 Composable pipeline:
-    feature_set = ak.FeatureSet([
-        ak.features.RSI(period=14),
-        ak.features.MACD(),
-        ak.features.Returns(periods=[1, 5, 21]),
+    feature_set = fs.FeatureSet([
+        fs.features.RSI(period=14),
+        fs.features.MACD(),
+        fs.features.Returns(periods=[1, 5, 21]),
     ])
     df = feature_set.transform(df)
 """
@@ -21,11 +21,11 @@ from __future__ import annotations
 
 import polars as pl
 
-from alphakit.features.calendar import calendar_features
-from alphakit.features.cross import cross_percentile, cross_rank, cross_zscore
+from finasys.features.calendar import calendar_features
+from finasys.features.cross import cross_percentile, cross_rank, cross_zscore
 
 # --- Composable step classes (PascalCase) ---
-from alphakit.features.feature_set import (
+from finasys.features.feature_set import (
     ATR,
     MACD,
     RSI,
@@ -40,7 +40,7 @@ from alphakit.features.feature_set import (
 )
 
 # --- Functional API (lowercase) ---
-from alphakit.features.indicators import (
+from finasys.features.indicators import (
     adx,
     atr,
     bollinger,
@@ -57,14 +57,14 @@ from alphakit.features.indicators import (
     vwap,
     williams_r,
 )
-from alphakit.features.lags import lags, validate_no_lookahead
-from alphakit.features.returns import (
+from finasys.features.lags import lags, validate_no_lookahead
+from finasys.features.returns import (
     cumulative_returns,
     drawdown,
     log_returns,
     returns,
 )
-from alphakit.features.rolling import rolling_stats
+from finasys.features.rolling import rolling_stats
 
 
 def add_all(
@@ -104,12 +104,12 @@ def add_all(
             df = stochastic(df)
 
     if returns_:
-        from alphakit.features.returns import returns as _returns
+        from finasys.features.returns import returns as _returns
 
         df = _returns(df, periods=[1, 5, 21])
 
     if lags_ is not None:
-        from alphakit.features.lags import lags as _lags
+        from finasys.features.lags import lags as _lags
 
         df = _lags(df, columns=["close"], lags=lags_)
 

@@ -3,7 +3,7 @@
 import polars as pl
 import pytest
 
-from alphakit.features import lags, validate_no_lookahead
+from finasys.features import lags, validate_no_lookahead
 
 
 def test_lags_single(simple_close_df):
@@ -37,7 +37,7 @@ def test_lags_rejects_zero():
 
 def test_validate_no_lookahead_passes(ohlcv_df):
     """Lag features should pass look-ahead validation."""
-    from alphakit.features import rsi
+    from finasys.features import rsi
 
     full = rsi(ohlcv_df, period=14)
     partial = rsi(ohlcv_df.head(50), period=14)

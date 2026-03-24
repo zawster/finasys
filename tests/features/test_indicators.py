@@ -1,6 +1,6 @@
 """Tests for technical indicators."""
 
-from alphakit.features import (
+from finasys.features import (
     atr,
     bollinger,
     cci,
@@ -139,7 +139,7 @@ class TestOtherIndicators:
         assert "momentum_10" in result.columns
 
     def test_adx(self, ohlcv_df):
-        from alphakit.features import adx
+        from finasys.features import adx
 
         result = adx(ohlcv_df)
         assert "adx_14" in result.columns

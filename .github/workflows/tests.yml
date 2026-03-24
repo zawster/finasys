@@ -30,7 +30,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests/ -v --cov=alphakit --cov-report=xml -m "not network"
+          pytest tests/ -v --cov=finasys --cov-report=xml -m "not network"
 
       - name: Upload coverage
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'

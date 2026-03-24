@@ -1,8 +1,8 @@
-site_name: alphakit
+site_name: finasys
 site_description: Financial data processing, feature engineering and AI agent toolkit for Python
-site_url: https://zawster.github.io/alphakit
-repo_url: https://github.com/zawster/alphakit
-repo_name: zawster/alphakit
+site_url: https://zawster.github.io/finasys
+repo_url: https://github.com/zawster/finasys
+repo_name: zawster/finasys
 
 theme:
   name: material

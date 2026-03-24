@@ -1,6 +1,6 @@
-# Contributing to alphakit
+# Contributing to finasys
 
-Thank you for your interest in contributing to alphakit! This guide will help you get started.
+Thank you for your interest in contributing to finasys! This guide will help you get started.
 
 ## Getting Started
 
@@ -15,8 +15,8 @@ Thank you for your interest in contributing to alphakit! This guide will help yo
 1. **Fork and clone the repository**
 
 ```bash
-git clone https://github.com/zawster/alphakit.git
-cd alphakit
+git clone https://github.com/zawster/finasys.git
+cd finasys
 ```
 
 2. **Create a virtual environment**
@@ -56,14 +56,14 @@ pytest tests/ -v
 
 ### Writing Code
 
-- **Indicators**: Add to `alphakit/features/indicators.py`, use pure Polars expressions (no pandas/ta-lib)
-- **Data sources**: Add to `alphakit/sources/`, follow the `ak.load()` dispatcher pattern
-- **Agent tools**: Add to `alphakit/agents/`, ensure outputs are LLM-friendly
+- **Indicators**: Add to `finasys/features/indicators.py`, use pure Polars expressions (no pandas/ta-lib)
+- **Data sources**: Add to `finasys/sources/`, follow the `fs.load()` dispatcher pattern
+- **Agent tools**: Add to `finasys/agents/`, ensure outputs are LLM-friendly
 - All public functions need docstrings
 
 ### Writing Tests
 
-- Tests mirror the source structure: `alphakit/features/` -> `tests/features/`
+- Tests mirror the source structure: `finasys/features/` -> `tests/features/`
 - Use the fixtures in `tests/conftest.py` for synthetic OHLCV data
 - No network calls in unit tests (mark network tests with `@pytest.mark.network`)
 - Test both single-symbol and multi-symbol DataFrames
@@ -78,7 +78,7 @@ pytest tests/ -v
 pytest tests/features/ -v
 
 # With coverage
-pytest tests/ --cov=alphakit --cov-report=term-missing
+pytest tests/ --cov=finasys --cov-report=term-missing
 ```
 
 ## Pull Request Process
@@ -100,7 +100,7 @@ pytest tests/ --cov=alphakit --cov-report=term-missing
 
 Here's a quick guide for the most common contribution -- adding a new technical indicator:
 
-1. Add the function to `alphakit/features/indicators.py`:
+1. Add the function to `finasys/features/indicators.py`:
 
 ```python
 def your_indicator(df: pl.DataFrame, period: int = 14) -> pl.DataFrame:
@@ -114,9 +114,9 @@ def your_indicator(df: pl.DataFrame, period: int = 14) -> pl.DataFrame:
     return df.with_columns(symbol_aware(expr, df))
 ```
 
-2. Export it in `alphakit/features/__init__.py`
+2. Export it in `finasys/features/__init__.py`
 3. Add tests in `tests/features/test_indicators.py`
-4. Add a `FeatureStep` class in `alphakit/features/feature_set.py` (optional)
+4. Add a `FeatureStep` class in `finasys/features/feature_set.py` (optional)
 
 ## Questions?
 

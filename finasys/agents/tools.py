@@ -139,7 +139,7 @@ def execute_tool(tool_name: str, arguments: dict[str, Any]) -> str:
     """Execute a tool call and return the result as a string.
 
     This is a convenience function for handling tool calls from an LLM.
-    It dispatches to the appropriate alphakit function based on tool_name.
+    It dispatches to the appropriate finasys function based on tool_name.
 
     Args:
         tool_name: The function name from the tool call.
@@ -148,13 +148,13 @@ def execute_tool(tool_name: str, arguments: dict[str, Any]) -> str:
     Returns:
         String result suitable for returning to the LLM.
     """
-    import alphakit as ak
+    import finasys as fs
 
     if tool_name == "lookup_price":
         symbol = arguments["symbol"]
         start = arguments.get("start")
         end = arguments.get("end")
-        df = ak.load(symbol, start=start, end=end)
+        df = fs.load(symbol, start=start, end=end)
         # Return last 10 rows as a readable string
         recent = df.tail(10)
         return recent.to_pandas().to_string(index=False)
@@ -163,10 +163,10 @@ def execute_tool(tool_name: str, arguments: dict[str, Any]) -> str:
         symbol = arguments["symbol"]
         start = arguments.get("start")
         indicators = arguments.get("indicators", ["rsi", "macd", "bollinger"])
-        df = ak.load(symbol, start=start)
+        df = fs.load(symbol, start=start)
 
         for ind in indicators:
-            func = getattr(ak.features, ind, None)
+            func = getattr(fs.features, ind, None)
             if func is not None:
                 df = func(df)
 
@@ -176,8 +176,8 @@ def execute_tool(tool_name: str, arguments: dict[str, Any]) -> str:
     elif tool_name == "compare_symbols":
         symbols = arguments["symbols"]
         start = arguments.get("start")
-        df = ak.load(symbols, start=start)
-        df = ak.features.returns(df, periods=[1, 5, 21])
+        df = fs.load(symbols, start=start)
+        df = fs.features.returns(df, periods=[1, 5, 21])
 
         # Summary per symbol
         summary_parts = []
@@ -198,10 +198,10 @@ def execute_tool(tool_name: str, arguments: dict[str, Any]) -> str:
     elif tool_name == "get_summary":
         symbol = arguments["symbol"]
         days = arguments.get("days", 252)
-        df = ak.load(symbol)
+        df = fs.load(symbol)
         df = df.tail(days)
-        df = ak.features.add_all(df)
-        return ak.agents.summarize(df)
+        df = fs.features.add_all(df)
+        return fs.agents.summarize(df)
 
     else:
         return f"Unknown tool: {tool_name}"

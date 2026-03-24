@@ -27,8 +27,8 @@ env/
 coverage.xml
 htmlcov/
 
-# alphakit cache
-.alphakit/
+# finasys cache
+.finasys/
 
 # OS
 .DS_Store

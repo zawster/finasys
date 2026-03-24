@@ -1,6 +1,6 @@
 """Tests for the add_all convenience function."""
 
-from alphakit.features import add_all
+from finasys.features import add_all
 
 
 def test_add_all_default(ohlcv_df):

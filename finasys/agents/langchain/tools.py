@@ -1,4 +1,4 @@
-"""LangChain BaseTool implementations for alphakit."""
+"""LangChain BaseTool implementations for finasys."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from typing import Any
 
 
 def create_tools(symbols: list[str] | None = None) -> list[Any]:
-    """Create LangChain tools wrapping alphakit functionality."""
+    """Create LangChain tools wrapping finasys functionality."""
     from langchain_core.tools import StructuredTool
     from pydantic import BaseModel, Field
 
@@ -28,12 +28,12 @@ def create_tools(symbols: list[str] | None = None) -> list[Any]:
         days: int = Field(default=252, description="Trading days to analyze")
 
     def _lookup_price(symbol: str, start: str | None = None, end: str | None = None) -> str:
-        from alphakit.agents.tools import execute_tool
+        from finasys.agents.tools import execute_tool
 
         return execute_tool("lookup_price", {"symbol": symbol, "start": start, "end": end})
 
     def _get_indicators(symbol: str, indicators: list[str] | None = None, start: str | None = None) -> str:
-        from alphakit.agents.tools import execute_tool
+        from finasys.agents.tools import execute_tool
 
         return execute_tool(
             "get_technical_indicators",
@@ -41,7 +41,7 @@ def create_tools(symbols: list[str] | None = None) -> list[Any]:
         )
 
     def _get_summary(symbol: str, days: int = 252) -> str:
-        from alphakit.agents.tools import execute_tool
+        from finasys.agents.tools import execute_tool
 
         return execute_tool("get_summary", {"symbol": symbol, "days": days})
 

@@ -7,11 +7,11 @@ repos:
     hooks:
       - id: ruff
         types_or: [python, pyi]
-        files: ^(alphakit|tests)/.*\.py$
+        files: ^(finasys|tests)/.*\.py$
         args: [--fix-only]
       - id: ruff-format
         types_or: [python, pyi]
-        files: ^(alphakit|tests)/.*\.py$
+        files: ^(finasys|tests)/.*\.py$
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

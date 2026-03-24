@@ -1,6 +1,6 @@
 """Tests for agent context extraction."""
 
-from alphakit.agents import context, schema
+from finasys.agents import context, schema
 
 
 class TestContext:

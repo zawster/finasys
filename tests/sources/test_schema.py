@@ -3,7 +3,7 @@
 import polars as pl
 import pytest
 
-from alphakit.sources.schema import (
+from finasys.sources.schema import (
     detect_ohlcv_schema,
     standardize_columns,
     validate_ohlcv,

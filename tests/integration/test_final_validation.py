@@ -1,9 +1,9 @@
 """
 FINAL VALIDATION TEST SUITE
 ============================
-Comprehensive end-to-end testing of every public function in alphakit.
+Comprehensive end-to-end testing of every public function in finasys.
 Written from the perspective of a neutral end user who just ran:
-    pip install alphakit
+    pip install finasys
 
 Tests every function, every parameter variant, edge cases, and
 cross-module integration.
@@ -96,22 +96,22 @@ def minimal_close() -> pl.DataFrame:
 
 
 class TestLoad:
-    """Test ak.load() -- the single entry point."""
+    """Test fs.load() -- the single entry point."""
 
     def test_load_csv(self, sample_ohlcv, tmp_path):
         sample_ohlcv.write_csv(tmp_path / "data.csv")
-        import alphakit as ak
+        import finasys as fs
 
-        df = ak.load(str(tmp_path / "data.csv"))
+        df = fs.load(str(tmp_path / "data.csv"))
         assert isinstance(df, pl.DataFrame)
         assert df.height == 100
         assert "close" in df.columns
 
     def test_load_parquet(self, sample_ohlcv, tmp_path):
         sample_ohlcv.write_parquet(tmp_path / "data.parquet")
-        import alphakit as ak
+        import finasys as fs
 
-        df = ak.load(str(tmp_path / "data.parquet"))
+        df = fs.load(str(tmp_path / "data.parquet"))
         assert df.height == 100
 
     def test_load_json_file(self, sample_ohlcv, tmp_path):
@@ -123,42 +123,42 @@ class TestLoad:
             }
         )
         simple.write_json(tmp_path / "data.json")
-        import alphakit as ak
+        import finasys as fs
 
-        df = ak.load(str(tmp_path / "data.json"))
+        df = fs.load(str(tmp_path / "data.json"))
         assert "close" in df.columns
 
     def test_load_pandas_backend(self, sample_ohlcv, tmp_path):
         sample_ohlcv.write_csv(tmp_path / "data.csv")
         import pandas as pd
 
-        import alphakit as ak
+        import finasys as fs
 
-        df = ak.load(str(tmp_path / "data.csv"), backend="pandas")
+        df = fs.load(str(tmp_path / "data.csv"), backend="pandas")
         assert isinstance(df, pd.DataFrame)
 
     def test_load_polars_backend_explicit(self, sample_ohlcv, tmp_path):
         sample_ohlcv.write_csv(tmp_path / "data.csv")
-        import alphakit as ak
+        import finasys as fs
 
-        df = ak.load(str(tmp_path / "data.csv"), backend="polars")
+        df = fs.load(str(tmp_path / "data.csv"), backend="polars")
         assert isinstance(df, pl.DataFrame)
 
     def test_load_file_not_found(self):
-        import alphakit as ak
+        import finasys as fs
 
         with pytest.raises(FileNotFoundError):
-            ak.load("./does_not_exist.csv")
+            fs.load("./does_not_exist.csv")
 
     def test_load_unsupported_format(self, tmp_path):
         (tmp_path / "bad.xlsx").write_text("x")
-        import alphakit as ak
+        import finasys as fs
 
         with pytest.raises(ValueError, match="Unsupported"):
-            ak.load(str(tmp_path / "bad.xlsx"))
+            fs.load(str(tmp_path / "bad.xlsx"))
 
     def test_file_path_detection(self):
-        from alphakit.sources import _is_file_path
+        from finasys.sources import _is_file_path
 
         # Files
         assert _is_file_path("data.csv") is True
@@ -175,7 +175,7 @@ class TestSchemaStandardization:
     """Test column name mapping and type casting."""
 
     def test_yahoo_column_names(self):
-        from alphakit.sources.schema import standardize_columns
+        from finasys.sources.schema import standardize_columns
 
         df = pl.DataFrame({"Date": ["x"], "Open": [1.0], "High": [2.0], "Low": [0.5], "Close": [1.5], "Volume": [1000]})
         result = standardize_columns(df)
@@ -184,45 +184,45 @@ class TestSchemaStandardization:
         assert "close" in result.columns
 
     def test_adj_close_mapping(self):
-        from alphakit.sources.schema import standardize_columns
+        from finasys.sources.schema import standardize_columns
 
         df = pl.DataFrame({"Date": ["x"], "Adj Close": [100.0]})
         result = standardize_columns(df)
         assert "close" in result.columns
 
     def test_ticker_symbol_mapping(self):
-        from alphakit.sources.schema import standardize_columns
+        from finasys.sources.schema import standardize_columns
 
         df = pl.DataFrame({"Ticker": ["AAPL"], "Close": [100.0]})
         result = standardize_columns(df)
         assert "symbol" in result.columns
 
     def test_validate_ohlcv_pass(self):
-        from alphakit.sources.schema import validate_ohlcv
+        from finasys.sources.schema import validate_ohlcv
 
         df = pl.DataFrame({"timestamp": [date(2024, 1, 1)], "close": [100.0]})
         assert validate_ohlcv(df) is df
 
     def test_validate_ohlcv_fail(self):
-        from alphakit.sources.schema import validate_ohlcv
+        from finasys.sources.schema import validate_ohlcv
 
         with pytest.raises(ValueError, match="Missing"):
             validate_ohlcv(pl.DataFrame({"price": [100]}))
 
     def test_detect_ohlcv_true(self):
-        from alphakit.sources.schema import detect_ohlcv_schema
+        from finasys.sources.schema import detect_ohlcv_schema
 
         df = pl.DataFrame({"Date": ["x"], "Close": [100.0]})
         assert detect_ohlcv_schema(df) is True
 
     def test_detect_ohlcv_false(self):
-        from alphakit.sources.schema import detect_ohlcv_schema
+        from finasys.sources.schema import detect_ohlcv_schema
 
         df = pl.DataFrame({"name": ["Alice"], "age": [30]})
         assert detect_ohlcv_schema(df) is False
 
     def test_cast_string_dates(self):
-        from alphakit.sources.schema import cast_ohlcv_types
+        from finasys.sources.schema import cast_ohlcv_types
 
         df = pl.DataFrame({"timestamp": ["2024-01-01"], "close": ["100.5"]})
         result = cast_ohlcv_types(df)
@@ -248,7 +248,7 @@ class TestCache:
         )
 
     def test_cache_put_and_get(self, cache_df):
-        from alphakit.sources.cache import cache_clear, cache_get, cache_put
+        from finasys.sources.cache import cache_clear, cache_get, cache_put
 
         cache_clear("CTEST")
         cache_put(cache_df, "CTEST")
@@ -258,21 +258,21 @@ class TestCache:
         cache_clear("CTEST")
 
     def test_cache_get_empty(self):
-        from alphakit.sources.cache import cache_clear, cache_get
+        from finasys.sources.cache import cache_clear, cache_get
 
         cache_clear("NONEXISTENT")
         result = cache_get("NONEXISTENT")
         assert result is None
 
     def test_cache_clear_specific(self, cache_df):
-        from alphakit.sources.cache import cache_clear, cache_get, cache_put
+        from finasys.sources.cache import cache_clear, cache_get, cache_put
 
         cache_put(cache_df, "SYM_A")
         cache_clear("SYM_A")
         assert cache_get("SYM_A") is None
 
     def test_cache_date_range(self, cache_df):
-        from alphakit.sources.cache import cache_clear, cache_get, cache_put
+        from finasys.sources.cache import cache_clear, cache_get, cache_put
 
         cache_clear("RANGETEST")
         cache_put(cache_df, "RANGETEST")
@@ -289,32 +289,32 @@ class TestCache:
 
 class TestSMA:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import sma
+        from finasys.features import sma
 
         r = sma(sample_ohlcv)
         assert "sma_20" in r.columns
 
     def test_custom_period(self, sample_ohlcv):
-        from alphakit.features import sma
+        from finasys.features import sma
 
         r = sma(sample_ohlcv, period=10)
         assert "sma_10" in r.columns
 
     def test_custom_column(self, sample_ohlcv):
-        from alphakit.features import sma
+        from finasys.features import sma
 
         r = sma(sample_ohlcv, column="open")
         assert "sma_20" in r.columns
 
     def test_warmup_nulls(self, sample_ohlcv):
-        from alphakit.features import sma
+        from finasys.features import sma
 
         r = sma(sample_ohlcv, period=10)
         assert r["sma_10"][:9].null_count() == 9
         assert r["sma_10"][9] is not None
 
     def test_correctness(self):
-        from alphakit.features import sma
+        from finasys.features import sma
 
         df = pl.DataFrame(
             {"timestamp": [date(2024, 1, i) for i in range(1, 6)], "close": [10.0, 20.0, 30.0, 40.0, 50.0]}
@@ -324,7 +324,7 @@ class TestSMA:
         assert abs(r["sma_3"][4] - 40.0) < 0.01  # (30+40+50)/3
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.features import sma
+        from finasys.features import sma
 
         r = sma(multi_sym, period=5)
         # Each symbol should have its own SMA
@@ -336,14 +336,14 @@ class TestSMA:
 
 class TestEMA:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import ema
+        from finasys.features import ema
 
         r = ema(sample_ohlcv)
         assert "ema_20" in r.columns
         assert r["ema_20"].drop_nulls().len() > 0
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.features import ema
+        from finasys.features import ema
 
         r = ema(multi_sym, period=10)
         aaa = r.filter(pl.col("symbol") == "AAA")["ema_10"].drop_nulls()
@@ -353,13 +353,13 @@ class TestEMA:
 
 class TestRSI:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import rsi
+        from finasys.features import rsi
 
         r = rsi(sample_ohlcv)
         assert "rsi_14" in r.columns
 
     def test_range_0_to_100(self, sample_ohlcv):
-        from alphakit.features import rsi
+        from finasys.features import rsi
 
         r = rsi(sample_ohlcv)
         vals = r["rsi_14"].drop_nulls()
@@ -367,13 +367,13 @@ class TestRSI:
         assert vals.max() <= 100
 
     def test_custom_period(self, sample_ohlcv):
-        from alphakit.features import rsi
+        from finasys.features import rsi
 
         r = rsi(sample_ohlcv, period=7)
         assert "rsi_7" in r.columns
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.features import rsi
+        from finasys.features import rsi
 
         r = rsi(multi_sym, period=14)
         for sym in ["AAA", "BBB"]:
@@ -384,7 +384,7 @@ class TestRSI:
 
 class TestMACD:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import macd
+        from finasys.features import macd
 
         r = macd(sample_ohlcv)
         assert "macd_line" in r.columns
@@ -392,13 +392,13 @@ class TestMACD:
         assert "macd_hist" in r.columns
 
     def test_custom_params(self, sample_ohlcv):
-        from alphakit.features import macd
+        from finasys.features import macd
 
         r = macd(sample_ohlcv, fast=8, slow=21, signal=5)
         assert "macd_line" in r.columns
 
     def test_hist_equals_line_minus_signal(self, sample_ohlcv):
-        from alphakit.features import macd
+        from finasys.features import macd
 
         r = macd(sample_ohlcv)
         valid = r.drop_nulls(subset=["macd_line", "macd_signal", "macd_hist"])
@@ -406,7 +406,7 @@ class TestMACD:
         assert diff.max() < 1e-10
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.features import macd
+        from finasys.features import macd
 
         r = macd(multi_sym)
         for sym in ["AAA", "BBB"]:
@@ -416,19 +416,19 @@ class TestMACD:
 
 class TestBollinger:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import bollinger
+        from finasys.features import bollinger
 
         r = bollinger(sample_ohlcv)
         assert all(c in r.columns for c in ["bb_middle", "bb_upper", "bb_lower"])
 
     def test_upper_ge_lower(self, sample_ohlcv):
-        from alphakit.features import bollinger
+        from finasys.features import bollinger
 
         r = bollinger(sample_ohlcv).drop_nulls(subset=["bb_upper", "bb_lower"])
         assert (r["bb_upper"] >= r["bb_lower"]).all()
 
     def test_custom_std(self, sample_ohlcv):
-        from alphakit.features import bollinger
+        from finasys.features import bollinger
 
         r1 = bollinger(sample_ohlcv, std=1.0).drop_nulls(subset=["bb_upper"])
         r2 = bollinger(sample_ohlcv, std=3.0).drop_nulls(subset=["bb_upper"])
@@ -440,20 +440,20 @@ class TestBollinger:
 
 class TestATR:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import atr
+        from finasys.features import atr
 
         r = atr(sample_ohlcv)
         assert "atr_14" in r.columns
 
     def test_always_positive(self, sample_ohlcv):
-        from alphakit.features import atr
+        from finasys.features import atr
 
         r = atr(sample_ohlcv)
         vals = r["atr_14"].drop_nulls()
         assert (vals > 0).all()
 
     def test_custom_period(self, sample_ohlcv):
-        from alphakit.features import atr
+        from finasys.features import atr
 
         r = atr(sample_ohlcv, period=7)
         assert "atr_7" in r.columns
@@ -461,7 +461,7 @@ class TestATR:
 
 class TestVWAP:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import vwap
+        from finasys.features import vwap
 
         r = vwap(sample_ohlcv)
         assert "vwap" in r.columns
@@ -472,7 +472,7 @@ class TestVWAP:
 
 class TestOBV:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import obv
+        from finasys.features import obv
 
         r = obv(sample_ohlcv)
         assert "obv" in r.columns
@@ -481,14 +481,14 @@ class TestOBV:
 
 class TestStochastic:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import stochastic
+        from finasys.features import stochastic
 
         r = stochastic(sample_ohlcv)
         assert "stoch_k" in r.columns
         assert "stoch_d" in r.columns
 
     def test_k_range(self, sample_ohlcv):
-        from alphakit.features import stochastic
+        from finasys.features import stochastic
 
         r = stochastic(sample_ohlcv)
         k = r["stoch_k"].drop_nulls()
@@ -496,7 +496,7 @@ class TestStochastic:
         assert k.max() <= 100
 
     def test_custom_periods(self, sample_ohlcv):
-        from alphakit.features import stochastic
+        from finasys.features import stochastic
 
         r = stochastic(sample_ohlcv, k_period=21, d_period=5)
         assert "stoch_k" in r.columns
@@ -504,7 +504,7 @@ class TestStochastic:
 
 class TestADX:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import adx
+        from finasys.features import adx
 
         r = adx(sample_ohlcv)
         assert "adx_14" in r.columns
@@ -512,7 +512,7 @@ class TestADX:
         assert "minus_di" in r.columns
 
     def test_adx_non_negative(self, sample_ohlcv):
-        from alphakit.features import adx
+        from finasys.features import adx
 
         r = adx(sample_ohlcv)
         vals = r["adx_14"].drop_nulls()
@@ -521,13 +521,13 @@ class TestADX:
 
 class TestCCI:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import cci
+        from finasys.features import cci
 
         r = cci(sample_ohlcv)
         assert "cci_20" in r.columns
 
     def test_custom_period(self, sample_ohlcv):
-        from alphakit.features import cci
+        from finasys.features import cci
 
         r = cci(sample_ohlcv, period=14)
         assert "cci_14" in r.columns
@@ -535,13 +535,13 @@ class TestCCI:
 
 class TestWilliamsR:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import williams_r
+        from finasys.features import williams_r
 
         r = williams_r(sample_ohlcv)
         assert "williams_r_14" in r.columns
 
     def test_range(self, sample_ohlcv):
-        from alphakit.features import williams_r
+        from finasys.features import williams_r
 
         r = williams_r(sample_ohlcv)
         vals = r["williams_r_14"].drop_nulls()
@@ -551,7 +551,7 @@ class TestWilliamsR:
 
 class TestMFI:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import mfi
+        from finasys.features import mfi
 
         r = mfi(sample_ohlcv)
         assert "mfi_14" in r.columns
@@ -559,13 +559,13 @@ class TestMFI:
 
 class TestROC:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import roc
+        from finasys.features import roc
 
         r = roc(sample_ohlcv)
         assert "roc_10" in r.columns
 
     def test_correctness(self):
-        from alphakit.features import roc
+        from finasys.features import roc
 
         df = pl.DataFrame({"timestamp": [date(2024, 1, i) for i in range(1, 4)], "close": [100.0, 110.0, 120.0]})
         r = roc(df, period=1)
@@ -575,13 +575,13 @@ class TestROC:
 
 class TestMomentum:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import momentum
+        from finasys.features import momentum
 
         r = momentum(sample_ohlcv)
         assert "momentum_10" in r.columns
 
     def test_correctness(self):
-        from alphakit.features import momentum
+        from finasys.features import momentum
 
         df = pl.DataFrame({"timestamp": [date(2024, 1, i) for i in range(1, 4)], "close": [100.0, 110.0, 120.0]})
         r = momentum(df, period=1)
@@ -595,32 +595,32 @@ class TestMomentum:
 
 class TestReturns:
     def test_single_period(self, sample_ohlcv):
-        from alphakit.features import returns
+        from finasys.features import returns
 
         r = returns(sample_ohlcv, periods=1)
         assert "returns_1d" in r.columns
 
     def test_multiple_periods(self, sample_ohlcv):
-        from alphakit.features import returns
+        from finasys.features import returns
 
         r = returns(sample_ohlcv, periods=[1, 5, 21])
         assert all(f"returns_{p}d" in r.columns for p in [1, 5, 21])
 
     def test_first_value_null(self, sample_ohlcv):
-        from alphakit.features import returns
+        from finasys.features import returns
 
         r = returns(sample_ohlcv, periods=1)
         assert r["returns_1d"][0] is None
 
     def test_correctness(self):
-        from alphakit.features import returns
+        from finasys.features import returns
 
         df = pl.DataFrame({"timestamp": [date(2024, 1, 1), date(2024, 1, 2)], "close": [100.0, 105.0]})
         r = returns(df, periods=1)
         assert abs(r["returns_1d"][1] - 0.05) < 0.0001
 
     def test_multi_symbol_isolation(self, multi_sym):
-        from alphakit.features import returns
+        from finasys.features import returns
 
         r = returns(multi_sym, periods=1)
         # No return should be huge (symbol contamination would cause ~100% returns)
@@ -630,20 +630,20 @@ class TestReturns:
 
 class TestLogReturns:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import log_returns
+        from finasys.features import log_returns
 
         r = log_returns(sample_ohlcv)
         assert "log_returns_1d" in r.columns
 
     def test_multiple_periods(self, sample_ohlcv):
-        from alphakit.features import log_returns
+        from finasys.features import log_returns
 
         r = log_returns(sample_ohlcv, periods=[1, 5])
         assert "log_returns_1d" in r.columns
         assert "log_returns_5d" in r.columns
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.features import log_returns
+        from finasys.features import log_returns
 
         r = log_returns(multi_sym, periods=1)
         vals = r["log_returns_1d"].drop_nulls()
@@ -652,7 +652,7 @@ class TestLogReturns:
 
 class TestCumulativeReturns:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import cumulative_returns
+        from finasys.features import cumulative_returns
 
         r = cumulative_returns(sample_ohlcv)
         assert "cumulative_returns" in r.columns
@@ -660,7 +660,7 @@ class TestCumulativeReturns:
         assert abs(r["cumulative_returns"][0]) < 1e-10
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.features import cumulative_returns
+        from finasys.features import cumulative_returns
 
         r = cumulative_returns(multi_sym)
         # Each symbol's cumulative return should start at 0
@@ -671,21 +671,21 @@ class TestCumulativeReturns:
 
 class TestDrawdown:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import drawdown
+        from finasys.features import drawdown
 
         r = drawdown(sample_ohlcv)
         assert "drawdown" in r.columns
         assert "max_drawdown" in r.columns
 
     def test_always_non_positive(self, sample_ohlcv):
-        from alphakit.features import drawdown
+        from finasys.features import drawdown
 
         r = drawdown(sample_ohlcv)
         assert (r["drawdown"].drop_nulls() <= 0).all()
         assert (r["max_drawdown"].drop_nulls() <= 0).all()
 
     def test_max_dd_monotonically_decreasing(self, sample_ohlcv):
-        from alphakit.features import drawdown
+        from finasys.features import drawdown
 
         r = drawdown(sample_ohlcv)
         mdd = r["max_drawdown"].drop_nulls().to_list()
@@ -700,34 +700,34 @@ class TestDrawdown:
 
 class TestRollingStats:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import rolling_stats
+        from finasys.features import rolling_stats
 
         r = rolling_stats(sample_ohlcv, windows=21)
         assert "rolling_mean_21" in r.columns
         assert "rolling_std_21" in r.columns
 
     def test_multiple_windows(self, sample_ohlcv):
-        from alphakit.features import rolling_stats
+        from finasys.features import rolling_stats
 
         r = rolling_stats(sample_ohlcv, windows=[5, 10, 21])
         for w in [5, 10, 21]:
             assert f"rolling_mean_{w}" in r.columns
 
     def test_all_stats(self, sample_ohlcv):
-        from alphakit.features import rolling_stats
+        from finasys.features import rolling_stats
 
         r = rolling_stats(sample_ohlcv, windows=10, stats=["mean", "std", "min", "max", "skew", "zscore"])
         for stat in ["mean", "std", "min", "max", "skew", "zscore"]:
             assert f"rolling_{stat}_10" in r.columns
 
     def test_unknown_stat_raises(self, sample_ohlcv):
-        from alphakit.features import rolling_stats
+        from finasys.features import rolling_stats
 
         with pytest.raises(ValueError, match="Unknown"):
             rolling_stats(sample_ohlcv, windows=10, stats=["invalid"])
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.features import rolling_stats
+        from finasys.features import rolling_stats
 
         r = rolling_stats(multi_sym, windows=5)
         aaa = r.filter(pl.col("symbol") == "AAA")["rolling_mean_5"].drop_nulls()
@@ -737,7 +737,7 @@ class TestRollingStats:
 
 class TestLags:
     def test_single_lag(self, sample_ohlcv):
-        from alphakit.features import lags
+        from finasys.features import lags
 
         r = lags(sample_ohlcv, columns="close", lags=1)
         assert "close_lag_1" in r.columns
@@ -745,7 +745,7 @@ class TestLags:
         assert r["close_lag_1"][1] == sample_ohlcv["close"][0]
 
     def test_multiple_columns_and_lags(self, sample_ohlcv):
-        from alphakit.features import lags
+        from finasys.features import lags
 
         r = lags(sample_ohlcv, columns=["close", "volume"], lags=[1, 3, 5])
         assert "close_lag_1" in r.columns
@@ -753,21 +753,21 @@ class TestLags:
         assert "volume_lag_3" in r.columns
 
     def test_rejects_negative_lag(self):
-        from alphakit.features import lags
+        from finasys.features import lags
 
         df = pl.DataFrame({"close": [1.0, 2.0]})
         with pytest.raises(ValueError, match="positive"):
             lags(df, columns="close", lags=-1)
 
     def test_rejects_zero_lag(self):
-        from alphakit.features import lags
+        from finasys.features import lags
 
         df = pl.DataFrame({"close": [1.0, 2.0]})
         with pytest.raises(ValueError, match="positive"):
             lags(df, columns="close", lags=0)
 
     def test_multi_symbol_isolation(self, multi_sym):
-        from alphakit.features import lags
+        from finasys.features import lags
 
         r = lags(multi_sym, columns="close", lags=1)
         # First row of each symbol should be null
@@ -778,14 +778,14 @@ class TestLags:
 
 class TestValidateNoLookahead:
     def test_rsi_no_lookahead(self, sample_ohlcv):
-        from alphakit.features import rsi, validate_no_lookahead
+        from finasys.features import rsi, validate_no_lookahead
 
         full = rsi(sample_ohlcv, period=14)
         partial = rsi(sample_ohlcv.head(50), period=14)
         assert validate_no_lookahead(full, partial, ["rsi_14"]) is True
 
     def test_sma_no_lookahead(self, sample_ohlcv):
-        from alphakit.features import sma, validate_no_lookahead
+        from finasys.features import sma, validate_no_lookahead
 
         full = sma(sample_ohlcv, period=10)
         partial = sma(sample_ohlcv.head(60), period=10)
@@ -794,7 +794,7 @@ class TestValidateNoLookahead:
 
 class TestCalendarFeatures:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import calendar_features
+        from finasys.features import calendar_features
 
         r = calendar_features(sample_ohlcv)
         assert "day_of_week" in r.columns
@@ -806,7 +806,7 @@ class TestCalendarFeatures:
         assert "is_quarter_end" in r.columns
 
     def test_day_of_week_range(self, sample_ohlcv):
-        from alphakit.features import calendar_features
+        from finasys.features import calendar_features
 
         r = calendar_features(sample_ohlcv)
         dow = r["day_of_week"].drop_nulls()
@@ -816,7 +816,7 @@ class TestCalendarFeatures:
 
 class TestCrossSectional:
     def test_cross_rank(self, multi_sym):
-        from alphakit.features import cross_rank
+        from finasys.features import cross_rank
 
         r = cross_rank(multi_sym, column="close")
         assert "close_rank" in r.columns
@@ -826,7 +826,7 @@ class TestCrossSectional:
             assert ranks == [1, 2]
 
     def test_cross_percentile(self, multi_sym):
-        from alphakit.features import cross_percentile
+        from finasys.features import cross_percentile
 
         r = cross_percentile(multi_sym, column="close")
         assert "close_percentile" in r.columns
@@ -835,7 +835,7 @@ class TestCrossSectional:
         assert vals.max() <= 1.0
 
     def test_cross_zscore(self, multi_sym):
-        from alphakit.features import cross_zscore
+        from finasys.features import cross_zscore
 
         r = cross_zscore(multi_sym, column="close")
         assert "close_zscore" in r.columns
@@ -848,7 +848,7 @@ class TestCrossSectional:
 
 class TestAddAll:
     def test_default(self, sample_ohlcv):
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(sample_ohlcv)
         # Should have indicators + returns
@@ -858,46 +858,46 @@ class TestAddAll:
         assert "returns_1d" in r.columns
 
     def test_no_indicators(self, sample_ohlcv):
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(sample_ohlcv, indicators=False)
         assert "rsi_14" not in r.columns
 
     def test_no_returns(self, sample_ohlcv):
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(sample_ohlcv, returns_=False)
         assert "returns_1d" not in r.columns
 
     def test_with_lags(self, sample_ohlcv):
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(sample_ohlcv, lags_=[1, 5, 10])
         assert "close_lag_1" in r.columns
         assert "close_lag_10" in r.columns
 
     def test_with_rolling(self, sample_ohlcv):
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(sample_ohlcv, rolling_windows=[7, 14])
         assert "rolling_mean_7" in r.columns
         assert "rolling_std_14" in r.columns
 
     def test_with_calendar(self, sample_ohlcv):
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(sample_ohlcv, calendar=True)
         assert "day_of_week" in r.columns
 
     def test_everything_on(self, sample_ohlcv):
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(sample_ohlcv, indicators=True, returns_=True, lags_=[1, 5], rolling_windows=[5, 21], calendar=True)
         assert r.width > 30
 
     def test_minimal_df(self, minimal_close):
         """add_all on a DataFrame with only timestamp + close (no OHLCV)."""
-        from alphakit.features import add_all
+        from finasys.features import add_all
 
         r = add_all(minimal_close, indicators=True, returns_=True)
         assert "rsi_14" in r.columns
@@ -906,7 +906,7 @@ class TestAddAll:
 
 class TestFeatureSet:
     def test_create_and_transform(self, sample_ohlcv):
-        from alphakit.features import MACD, RSI, FeatureSet
+        from finasys.features import MACD, RSI, FeatureSet
 
         fs = FeatureSet([RSI(), MACD()])
         r = fs.transform(sample_ohlcv)
@@ -914,7 +914,7 @@ class TestFeatureSet:
         assert "macd_line" in r.columns
 
     def test_add_chaining(self, sample_ohlcv):
-        from alphakit.features import RSI, FeatureSet, Returns
+        from finasys.features import RSI, FeatureSet, Returns
 
         fs = FeatureSet()
         fs.add(RSI(period=7)).add(Returns(periods=[1, 5]))
@@ -925,7 +925,7 @@ class TestFeatureSet:
 
     def test_all_step_types(self, sample_ohlcv):
         """Test every registered FeatureStep class."""
-        from alphakit.features import (
+        from finasys.features import (
             ATR,
             MACD,
             RSI,
@@ -963,7 +963,7 @@ class TestFeatureSet:
         assert "day_of_week" in r.columns
 
     def test_save_and_load(self, tmp_path):
-        from alphakit.features import RSI, FeatureSet, Returns
+        from finasys.features import RSI, FeatureSet, Returns
 
         fs = FeatureSet([RSI(period=7), Returns(periods=[1, 21])])
         path = str(tmp_path / "pipeline.json")
@@ -976,7 +976,7 @@ class TestFeatureSet:
         assert loaded.steps[1].name == "Returns"
 
     def test_roundtrip_produces_identical_output(self, sample_ohlcv, tmp_path):
-        from alphakit.features import MACD, RSI, FeatureSet, Returns
+        from finasys.features import MACD, RSI, FeatureSet, Returns
 
         fs = FeatureSet([RSI(), MACD(), Returns(periods=[1, 5, 21])])
         path = str(tmp_path / "pipe.json")
@@ -989,13 +989,13 @@ class TestFeatureSet:
     def test_load_unknown_step_raises(self, tmp_path):
         path = tmp_path / "bad.json"
         path.write_text(json.dumps({"steps": [{"name": "Nonexistent", "params": {}}]}))
-        from alphakit.features import FeatureSet
+        from finasys.features import FeatureSet
 
         with pytest.raises(ValueError, match="Unknown"):
             FeatureSet.load(str(path))
 
     def test_repr(self):
-        from alphakit.features import RSI, FeatureSet
+        from finasys.features import RSI, FeatureSet
 
         fs = FeatureSet([RSI(period=14)])
         r = repr(fs)
@@ -1003,7 +1003,7 @@ class TestFeatureSet:
         assert "14" in r
 
     def test_empty(self, sample_ohlcv):
-        from alphakit.features import FeatureSet
+        from finasys.features import FeatureSet
 
         fs = FeatureSet()
         r = fs.transform(sample_ohlcv)
@@ -1017,7 +1017,7 @@ class TestFeatureSet:
 
 class TestSummarize:
     def test_basic(self, sample_ohlcv):
-        from alphakit.agents import summarize
+        from finasys.agents import summarize
 
         s = summarize(sample_ohlcv)
         assert isinstance(s, str)
@@ -1025,39 +1025,39 @@ class TestSummarize:
         assert "$" in s  # price
 
     def test_with_indicators(self, sample_ohlcv):
-        from alphakit.agents import summarize
-        from alphakit.features import add_all
+        from finasys.agents import summarize
+        from finasys.features import add_all
 
         df = add_all(sample_ohlcv)
         s = summarize(df)
         assert "RSI" in s or "Indicators" in s
 
     def test_max_tokens(self, sample_ohlcv):
-        from alphakit.agents import summarize
+        from finasys.agents import summarize
 
         s = summarize(sample_ohlcv, max_tokens=10)
         assert len(s) <= 44  # 10*4 + "..."
 
     def test_includes_volatility(self, sample_ohlcv):
-        from alphakit.agents import summarize
+        from finasys.agents import summarize
 
         s = summarize(sample_ohlcv)
         assert "Volatility" in s or "%" in s
 
     def test_includes_range(self, sample_ohlcv):
-        from alphakit.agents import summarize
+        from finasys.agents import summarize
 
         s = summarize(sample_ohlcv)
         assert "Range" in s
 
     def test_multi_symbol(self, multi_sym):
-        from alphakit.agents import summarize
+        from finasys.agents import summarize
 
         s = summarize(multi_sym)
         assert "AAA" in s or "BBB" in s
 
     def test_no_symbol_column(self, minimal_close):
-        from alphakit.agents import summarize
+        from finasys.agents import summarize
 
         s = summarize(minimal_close)
         assert "Unknown" in s  # default when no symbol
@@ -1065,14 +1065,14 @@ class TestSummarize:
 
 class TestTools:
     def test_returns_list(self):
-        from alphakit.agents import tools
+        from finasys.agents import tools
 
         t = tools()
         assert isinstance(t, list)
         assert len(t) == 4
 
     def test_openai_format(self):
-        from alphakit.agents import tools
+        from finasys.agents import tools
 
         for t in tools():
             assert t["type"] == "function"
@@ -1083,20 +1083,20 @@ class TestTools:
             assert f["parameters"]["type"] == "object"
 
     def test_with_symbols(self):
-        from alphakit.agents import tools
+        from finasys.agents import tools
 
         t = tools(symbols=["AAPL", "GOOGL"])
         descs = " ".join(x["function"]["description"] for x in t)
         assert "AAPL" in descs
 
     def test_tool_names(self):
-        from alphakit.agents import tools
+        from finasys.agents import tools
 
         names = {t["function"]["name"] for t in tools()}
         assert names == {"lookup_price", "get_technical_indicators", "compare_symbols", "get_summary"}
 
     def test_each_tool_has_required_params(self):
-        from alphakit.agents import tools
+        from finasys.agents import tools
 
         for t in tools():
             params = t["function"]["parameters"]
@@ -1108,36 +1108,36 @@ class TestTools:
 
 class TestContext:
     def test_markdown_default(self, sample_ohlcv):
-        from alphakit.agents import context
+        from finasys.agents import context
 
         c = context(sample_ohlcv, "What is the current price?")
         assert isinstance(c, str)
         assert "|" in c  # markdown table
 
     def test_json_format(self, sample_ohlcv):
-        from alphakit.agents import context
+        from finasys.agents import context
 
         c = context(sample_ohlcv, "price", format="json")
         parsed = json.loads(c)
         assert isinstance(parsed, list)
 
     def test_text_format(self, sample_ohlcv):
-        from alphakit.agents import context
+        from finasys.agents import context
 
         c = context(sample_ohlcv, "price", format="text")
         assert isinstance(c, str)
 
     def test_momentum_query_selects_indicators(self, sample_ohlcv):
-        from alphakit.agents import context
-        from alphakit.features import add_all
+        from finasys.agents import context
+        from finasys.features import add_all
 
         df = add_all(sample_ohlcv)
         c = context(df, "What is the momentum trend?")
         assert "rsi_14" in c or "macd" in c or "close" in c
 
     def test_volatility_query(self, sample_ohlcv):
-        from alphakit.agents import context
-        from alphakit.features import atr, rolling_stats
+        from finasys.agents import context
+        from finasys.features import atr, rolling_stats
 
         df = atr(sample_ohlcv)
         df = rolling_stats(df, windows=10)
@@ -1145,13 +1145,13 @@ class TestContext:
         assert "atr" in c or "std" in c or "close" in c
 
     def test_volume_query(self, sample_ohlcv):
-        from alphakit.agents import context
+        from finasys.agents import context
 
         c = context(sample_ohlcv, "What is the trading volume?")
         assert "volume" in c
 
     def test_max_tokens(self, sample_ohlcv):
-        from alphakit.agents import context
+        from finasys.agents import context
 
         c = context(sample_ohlcv, "price", max_tokens=50)
         assert len(c) <= 250  # 50*4 + some slack
@@ -1159,33 +1159,33 @@ class TestContext:
 
 class TestSchema:
     def test_basic(self, sample_ohlcv):
-        from alphakit.agents import schema
+        from finasys.agents import schema
 
         s = schema(sample_ohlcv)
         assert "100" in s  # 100 rows
         assert "columns" in s.lower()
 
     def test_includes_dtypes(self, sample_ohlcv):
-        from alphakit.agents import schema
+        from finasys.agents import schema
 
         s = schema(sample_ohlcv)
         assert "Float64" in s or "f64" in s
 
     def test_includes_time_range(self, sample_ohlcv):
-        from alphakit.agents import schema
+        from finasys.agents import schema
 
         s = schema(sample_ohlcv)
         assert "2024" in s
 
     def test_includes_symbols(self, multi_sym):
-        from alphakit.agents import schema
+        from finasys.agents import schema
 
         s = schema(multi_sym)
         assert "AAA" in s
         assert "BBB" in s
 
     def test_reports_nulls(self):
-        from alphakit.agents import schema
+        from finasys.agents import schema
 
         df = pl.DataFrame(
             {
@@ -1204,16 +1204,16 @@ class TestSchema:
 
 class TestConfig:
     def test_default_config(self):
-        from alphakit.utils.config import config
+        from finasys.utils.config import config
 
         assert config.cache_enabled is True
         assert config.default_backend == "polars"
-        assert "alphakit" in str(config.cache_dir)
+        assert "finasys" in str(config.cache_dir)
 
     def test_ensure_cache_dir(self, tmp_path):
-        from alphakit.utils.config import AlphaKitConfig
+        from finasys.utils.config import FinaSysConfig
 
-        cfg = AlphaKitConfig(cache_dir=tmp_path / "test_cache")
+        cfg = FinaSysConfig(cache_dir=tmp_path / "test_cache")
         p = cfg.ensure_cache_dir()
         assert p.exists()
 
@@ -1225,14 +1225,14 @@ class TestConfig:
 
 class TestTypes:
     def test_ohlcv_columns(self):
-        from alphakit.utils.types import OHLCV_COLUMNS
+        from finasys.utils.types import OHLCV_COLUMNS
 
         assert "timestamp" in OHLCV_COLUMNS
         assert "close" in OHLCV_COLUMNS
         assert len(OHLCV_COLUMNS) == 6
 
     def test_column_aliases(self):
-        from alphakit.utils.types import COLUMN_ALIASES
+        from finasys.utils.types import COLUMN_ALIASES
 
         assert COLUMN_ALIASES["Date"] == "timestamp"
         assert COLUMN_ALIASES["Adj Close"] == "close"
@@ -1246,10 +1246,10 @@ class TestTypes:
 
 class TestVersion:
     def test_version_exists(self):
-        import alphakit as ak
+        import finasys as fs
 
-        assert hasattr(ak, "__version__")
-        assert ak.__version__ == "0.1.0"
+        assert hasattr(fs, "__version__")
+        assert fs.__version__ == "0.1.0"
 
 
 # ============================================================
@@ -1260,44 +1260,44 @@ class TestVersion:
 class TestEndToEnd:
     def test_single_symbol_full_pipeline(self, sample_ohlcv):
         """Simulate a real user's complete workflow."""
-        import alphakit as ak
+        import finasys as fs
 
         # Step 1: Load (from DataFrame, simulating file load)
         df = sample_ohlcv
 
         # Step 2: Add all features
-        df = ak.features.add_all(df, lags_=[1, 5], rolling_windows=[5, 21], calendar=True)
+        df = fs.features.add_all(df, lags_=[1, 5], rolling_windows=[5, 21], calendar=True)
         assert df.width > 30
 
         # Step 3: Get summary
-        summary = ak.agents.summarize(df)
+        summary = fs.agents.summarize(df)
         assert len(summary) > 50
 
         # Step 4: Get tools
-        tools = ak.agents.tools(symbols=["TEST"])
+        tools = fs.agents.tools(symbols=["TEST"])
         assert len(tools) == 4
 
         # Step 5: Get context
-        ctx = ak.agents.context(df, "What is the trend?")
+        ctx = fs.agents.context(df, "What is the trend?")
         assert len(ctx) > 20
 
         # Step 6: Get schema
-        sch = ak.agents.schema(df)
+        sch = fs.agents.schema(df)
         assert "TEST" in sch
 
     def test_multi_symbol_full_pipeline(self, multi_sym):
         """Full pipeline on multi-symbol data."""
-        import alphakit as ak
+        import finasys as fs
 
         df = multi_sym
 
         # Features
-        df = ak.features.rsi(df)
-        df = ak.features.macd(df)
-        df = ak.features.returns(df, periods=[1, 5])
-        df = ak.features.lags(df, columns="close", lags=[1, 3])
-        df = ak.features.cross_rank(df, column="close")
-        df = ak.features.cross_zscore(df, column="returns_1d")
+        df = fs.features.rsi(df)
+        df = fs.features.macd(df)
+        df = fs.features.returns(df, periods=[1, 5])
+        df = fs.features.lags(df, columns="close", lags=[1, 3])
+        df = fs.features.cross_rank(df, column="close")
+        df = fs.features.cross_zscore(df, column="returns_1d")
 
         # Verify no cross-symbol contamination
         for sym in ["AAA", "BBB"]:
@@ -1306,78 +1306,78 @@ class TestEndToEnd:
             assert rets.abs().max() < 0.5
 
         # Agents
-        summary = ak.agents.summarize(df)
+        summary = fs.agents.summarize(df)
         assert isinstance(summary, str)
 
     def test_feature_set_pipeline(self, sample_ohlcv):
         """FeatureSet create -> transform -> save -> load -> re-transform."""
-        import alphakit as ak
+        import finasys as fs
 
-        fs = ak.FeatureSet(
+        pipeline = fs.FeatureSet(
             [
-                ak.features.RSI(period=14),
-                ak.features.MACD(),
-                ak.features.Returns(periods=[1, 5, 21]),
-                ak.features.RollingStats(windows=[10], stats=["mean", "std"]),
-                ak.features.Lags(columns=["close"], lags=[1, 2]),
+                fs.features.RSI(period=14),
+                fs.features.MACD(),
+                fs.features.Returns(periods=[1, 5, 21]),
+                fs.features.RollingStats(windows=[10], stats=["mean", "std"]),
+                fs.features.Lags(columns=["close"], lags=[1, 2]),
             ]
         )
 
-        r1 = fs.transform(sample_ohlcv)
+        r1 = pipeline.transform(sample_ohlcv)
 
         with tempfile.NamedTemporaryFile(suffix=".json", delete=False, mode="w") as f:
             path = f.name
         try:
-            fs.save(path)
-            fs2 = ak.FeatureSet.load(path)
-            r2 = fs2.transform(sample_ohlcv)
+            pipeline.save(path)
+            pipeline2 = fs.FeatureSet.load(path)
+            r2 = pipeline2.transform(sample_ohlcv)
             assert r1.equals(r2)
         finally:
             os.unlink(path)
 
     def test_csv_to_features_to_summary(self, sample_ohlcv, tmp_path):
         """Full file-based workflow: CSV -> load -> features -> summary."""
-        import alphakit as ak
+        import finasys as fs
 
         # Write CSV
         csv_path = tmp_path / "stock_data.csv"
         sample_ohlcv.drop("symbol").write_csv(csv_path)
 
         # Load
-        df = ak.load(str(csv_path))
+        df = fs.load(str(csv_path))
         assert isinstance(df, pl.DataFrame)
         assert "close" in df.columns
 
         # Features
-        df = ak.features.rsi(df)
-        df = ak.features.bollinger(df)
-        df = ak.features.returns(df, periods=[1, 5])
+        df = fs.features.rsi(df)
+        df = fs.features.bollinger(df)
+        df = fs.features.returns(df, periods=[1, 5])
 
         # Summary
-        summary = ak.agents.summarize(df)
+        summary = fs.agents.summarize(df)
         assert "$" in summary
 
     def test_no_data_loss(self, sample_ohlcv):
         """Features should never drop rows."""
-        import alphakit as ak
+        import finasys as fs
 
         original_rows = sample_ohlcv.height
 
         df = sample_ohlcv
-        df = ak.features.rsi(df)
+        df = fs.features.rsi(df)
         assert df.height == original_rows
 
-        df = ak.features.macd(df)
+        df = fs.features.macd(df)
         assert df.height == original_rows
 
-        df = ak.features.bollinger(df)
+        df = fs.features.bollinger(df)
         assert df.height == original_rows
 
-        df = ak.features.returns(df, periods=[1, 5, 21])
+        df = fs.features.returns(df, periods=[1, 5, 21])
         assert df.height == original_rows
 
-        df = ak.features.lags(df, columns="close", lags=[1, 5])
+        df = fs.features.lags(df, columns="close", lags=[1, 5])
         assert df.height == original_rows
 
-        df = ak.features.add_all(df, calendar=True)
+        df = fs.features.add_all(df, calendar=True)
         assert df.height == original_rows

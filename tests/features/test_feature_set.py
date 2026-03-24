@@ -1,6 +1,6 @@
 """Tests for FeatureSet pipeline."""
 
-from alphakit.features import MACD, RSI, FeatureSet, Returns
+from finasys.features import MACD, RSI, FeatureSet, Returns
 
 
 def test_feature_set_transform(ohlcv_df):

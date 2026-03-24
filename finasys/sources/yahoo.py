@@ -7,7 +7,7 @@ from datetime import date
 import polars as pl
 import yfinance as yf
 
-from alphakit.sources.schema import cast_ohlcv_types, standardize_columns
+from finasys.sources.schema import cast_ohlcv_types, standardize_columns
 
 
 def fetch_yahoo(

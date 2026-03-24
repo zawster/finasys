@@ -4,15 +4,15 @@ Tools and utilities for integrating financial data with AI agents and LLMs.
 
 ---
 
-## `ak.agents.summarize(df, max_tokens=None)`
+## `fs.agents.summarize(df, max_tokens=None)`
 
 Generate an LLM-ready text summary of a financial DataFrame.
 
 ```python
-df = ak.load("AAPL", start="2024-01-01")
-df = ak.features.add_all(df)
+df = fs.load("AAPL", start="2024-01-01")
+df = fs.features.add_all(df)
 
-summary = ak.agents.summarize(df)
+summary = fs.agents.summarize(df)
 ```
 
 **Example output:**
@@ -32,17 +32,17 @@ Volume: 87,981,315 (0.7x avg)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `df` | `pl.DataFrame` | required | DataFrame with alphakit standard columns |
+| `df` | `pl.DataFrame` | required | DataFrame with finasys standard columns |
 | `max_tokens` | `int` | `None` | Approximate token budget (1 token ~ 4 chars) |
 
 ---
 
-## `ak.agents.tools(symbols=None)`
+## `fs.agents.tools(symbols=None)`
 
 Generate tool definitions in OpenAI function-calling format.
 
 ```python
-tools = ak.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
+tools = fs.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
 
 # Plug directly into OpenAI
 # response = client.chat.completions.create(tools=tools, ...)
@@ -59,30 +59,30 @@ tools = ak.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
 
 ---
 
-## `ak.agents.execute_tool(tool_name, arguments)`
+## `fs.agents.execute_tool(tool_name, arguments)`
 
 Execute a tool call and return the result as a string.
 
 ```python
-result = ak.agents.execute_tool("get_summary", {"symbol": "AAPL", "days": 60})
-result = ak.agents.execute_tool("lookup_price", {"symbol": "GOOGL", "start": "2024-06-01"})
+result = fs.agents.execute_tool("get_summary", {"symbol": "AAPL", "days": 60})
+result = fs.agents.execute_tool("lookup_price", {"symbol": "GOOGL", "start": "2024-06-01"})
 ```
 
 ---
 
-## `ak.agents.context(df, query, max_tokens=500, format="markdown")`
+## `fs.agents.context(df, query, max_tokens=500, format="markdown")`
 
 Extract relevant context from a DataFrame based on a natural language query. Intelligently selects columns and rows based on query keywords.
 
 ```python
 # Momentum query -> selects RSI, MACD, SMA columns
-ctx = ak.agents.context(df, "What is the recent momentum?")
+ctx = fs.agents.context(df, "What is the recent momentum?")
 
 # Volatility query -> selects ATR, rolling_std columns
-ctx = ak.agents.context(df, "How volatile has it been?")
+ctx = fs.agents.context(df, "How volatile has it been?")
 
 # Volume query -> selects volume column
-ctx = ak.agents.context(df, "What is the trading volume?")
+ctx = fs.agents.context(df, "What is the trading volume?")
 ```
 
 **Parameters:**
@@ -96,12 +96,12 @@ ctx = ak.agents.context(df, "What is the trading volume?")
 
 ---
 
-## `ak.agents.schema(df)`
+## `fs.agents.schema(df)`
 
 Generate a human-readable schema description for LLM system prompts.
 
 ```python
-schema = ak.agents.schema(df)
+schema = fs.agents.schema(df)
 ```
 
 **Example output:**
@@ -122,10 +122,10 @@ Columns:
 
 ## LangChain Integration
 
-Requires: `pip install alphakit[langchain]`
+Requires: `pip install finasys[langchain]`
 
 ```python
-from alphakit.agents.langchain import get_tools
+from finasys.agents.langchain import get_tools
 
 tools = get_tools(symbols=["AAPL", "GOOGL"])
 # Returns List[BaseTool] ready for any LangChain agent

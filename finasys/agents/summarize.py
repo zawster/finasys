@@ -12,7 +12,7 @@ def summarize(df: pl.DataFrame, max_tokens: int | None = None) -> str:
     Includes date range, key statistics, recent trends, and volatility.
 
     Args:
-        df: DataFrame with standard alphakit columns (timestamp, close, etc.).
+        df: DataFrame with standard finasys columns (timestamp, close, etc.).
         max_tokens: Approximate token budget. If set, truncates the summary
                     to fit. Rough estimate: 1 token ~ 4 characters.
 

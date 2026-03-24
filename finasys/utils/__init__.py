@@ -1,7 +1,7 @@
-"""alphakit.utils -- Shared utilities, types, and configuration."""
+"""finasys.utils -- Shared utilities, types, and configuration."""
 
-from alphakit.utils.config import AlphaKitConfig, config
-from alphakit.utils.types import (
+from finasys.utils.config import FinaSysConfig, config
+from finasys.utils.types import (
     COLUMN_ALIASES,
     OHLCV_COLUMNS,
     REQUIRED_COLUMNS,
@@ -11,7 +11,7 @@ from alphakit.utils.types import (
 )
 
 __all__ = [
-    "AlphaKitConfig",
+    "FinaSysConfig",
     "config",
     "COLUMN_ALIASES",
     "OHLCV_COLUMNS",

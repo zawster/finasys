@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import polars as pl
 
-from alphakit.features.utils import symbol_aware
+from finasys.features.utils import symbol_aware
 
 
 def rolling_stats(

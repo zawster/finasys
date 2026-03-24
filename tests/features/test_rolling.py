@@ -2,7 +2,7 @@
 
 import pytest
 
-from alphakit.features import rolling_stats
+from finasys.features import rolling_stats
 
 
 def test_rolling_stats_default(ohlcv_df):

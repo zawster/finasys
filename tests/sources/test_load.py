@@ -1,4 +1,4 @@
-"""Tests for the ak.load() dispatcher and local file loading."""
+"""Tests for the fs.load() dispatcher and local file loading."""
 
 from pathlib import Path
 
@@ -11,7 +11,7 @@ def test_load_local_csv(ohlcv_df: pl.DataFrame, tmp_path: Path):
     csv_path = tmp_path / "test_data.csv"
     ohlcv_df.write_csv(csv_path)
 
-    from alphakit.sources import load
+    from finasys.sources import load
 
     result = load(str(csv_path))
 
@@ -25,7 +25,7 @@ def test_load_local_parquet(ohlcv_df: pl.DataFrame, tmp_path: Path):
     pq_path = tmp_path / "test_data.parquet"
     ohlcv_df.write_parquet(pq_path)
 
-    from alphakit.sources import load
+    from finasys.sources import load
 
     result = load(str(pq_path))
 
@@ -35,7 +35,7 @@ def test_load_local_parquet(ohlcv_df: pl.DataFrame, tmp_path: Path):
 
 def test_load_local_file_not_found():
     """load() raises FileNotFoundError for missing files."""
-    from alphakit.sources import load
+    from finasys.sources import load
 
     with pytest.raises(FileNotFoundError):
         load("./nonexistent_file.csv")
@@ -46,7 +46,7 @@ def test_load_local_unsupported_format(tmp_path: Path):
     bad_file = tmp_path / "data.xlsx"
     bad_file.write_text("test")
 
-    from alphakit.sources import load
+    from finasys.sources import load
 
     with pytest.raises(ValueError, match="Unsupported file format"):
         load(str(bad_file))
@@ -54,7 +54,7 @@ def test_load_local_unsupported_format(tmp_path: Path):
 
 def test_load_detects_file_vs_ticker():
     """_is_file_path correctly distinguishes files from tickers."""
-    from alphakit.sources import _is_file_path
+    from finasys.sources import _is_file_path
 
     assert _is_file_path("./data.csv") is True
     assert _is_file_path("data.parquet") is True
@@ -70,7 +70,7 @@ def test_load_pandas_backend(ohlcv_df: pl.DataFrame, tmp_path: Path):
     csv_path = tmp_path / "test.csv"
     ohlcv_df.write_csv(csv_path)
 
-    from alphakit.sources import load
+    from finasys.sources import load
 
     result = load(str(csv_path), backend="pandas")
 

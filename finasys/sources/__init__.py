@@ -1,18 +1,18 @@
-"""alphakit.sources -- Unified financial data ingestion.
+"""finasys.sources -- Unified financial data ingestion.
 
 The main entry point is `load()`, which dispatches to the appropriate
 data source based on the input:
 
-    import alphakit as ak
+    import finasys as fs
 
     # Single ticker from Yahoo Finance
-    df = ak.load("AAPL", start="2024-01-01")
+    df = fs.load("AAPL", start="2024-01-01")
 
     # Multiple tickers
-    df = ak.load(["AAPL", "GOOGL", "MSFT"], start="2024-01-01")
+    df = fs.load(["AAPL", "GOOGL", "MSFT"], start="2024-01-01")
 
     # Local file (CSV or Parquet)
-    df = ak.load("./data/prices.csv")
+    df = fs.load("./data/prices.csv")
 """
 
 from __future__ import annotations
@@ -22,10 +22,10 @@ from pathlib import Path
 
 import polars as pl
 
-from alphakit.sources.cache import cache_clear, cache_get, cache_put
-from alphakit.sources.local import load_local
-from alphakit.sources.yahoo import fetch_yahoo, fetch_yahoo_multi
-from alphakit.utils.types import Backend, Ticker
+from finasys.sources.cache import cache_clear, cache_get, cache_put
+from finasys.sources.local import load_local
+from finasys.sources.yahoo import fetch_yahoo, fetch_yahoo_multi
+from finasys.utils.types import Backend, Ticker
 
 
 def load(
@@ -38,7 +38,7 @@ def load(
 ) -> pl.DataFrame:
     """Load financial data from any supported source.
 
-    This is the single entry point for all data loading in alphakit.
+    This is the single entry point for all data loading in finasys.
     It auto-detects whether the source is a ticker symbol, list of tickers,
     or a local file path, and dispatches accordingly.
 

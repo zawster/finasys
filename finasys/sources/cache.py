@@ -8,13 +8,13 @@ from pathlib import Path
 import duckdb
 import polars as pl
 
-from alphakit.utils.config import config
+from finasys.utils.config import config
 
 
 def _get_db_path() -> Path:
     """Get the path to the DuckDB cache file."""
     cache_dir = config.ensure_cache_dir()
-    return cache_dir / "alphakit_cache.duckdb"
+    return cache_dir / "finasys_cache.duckdb"
 
 
 def _get_connection() -> duckdb.DuckDBPyConnection:
