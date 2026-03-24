@@ -1,14 +1,14 @@
 # AI Agent Integration
 
-This tutorial shows how to use alphakit with AI agents and LLMs.
+This tutorial shows how to use finasys with AI agents and LLMs.
 
 ## OpenAI Function Calling
 
 ```python
-import alphakit as ak
+import finasys as fs
 
 # Get tool definitions
-tools = ak.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
+tools = fs.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
 
 # Plug directly into OpenAI
 # response = openai.chat.completions.create(
@@ -18,31 +18,31 @@ tools = ak.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
 # )
 
 # Execute tool calls
-result = ak.agents.execute_tool("get_summary", {"symbol": "AAPL"})
+result = fs.agents.execute_tool("get_summary", {"symbol": "AAPL"})
 print(result)
 ```
 
 ## LLM Context Generation
 
 ```python
-df = ak.load("AAPL", start="2024-01-01")
-df = ak.features.add_all(df)
+df = fs.load("AAPL", start="2024-01-01")
+df = fs.features.add_all(df)
 
 # Summary for system prompts
-summary = ak.agents.summarize(df)
+summary = fs.agents.summarize(df)
 
 # Targeted context extraction
-momentum = ak.agents.context(df, "What is the recent momentum?")
-risk = ak.agents.context(df, "How volatile has it been?")
+momentum = fs.agents.context(df, "What is the recent momentum?")
+risk = fs.agents.context(df, "How volatile has it been?")
 
 # Schema for data-aware prompts
-schema = ak.agents.schema(df)
+schema = fs.agents.schema(df)
 ```
 
 ## LangChain Integration
 
 ```python
-from alphakit.agents.langchain import get_tools
+from finasys.agents.langchain import get_tools
 
 tools = get_tools(symbols=["AAPL", "GOOGL"])
 # Returns List[BaseTool] ready for any LangChain agent

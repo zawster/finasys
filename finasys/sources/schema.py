@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import polars as pl
 
-from alphakit.utils.types import COLUMN_ALIASES, OHLCV_COLUMNS
+from finasys.utils.types import COLUMN_ALIASES, OHLCV_COLUMNS
 
 
 def standardize_columns(df: pl.DataFrame) -> pl.DataFrame:
-    """Rename columns to alphakit's standard lowercase snake_case names.
+    """Rename columns to finasys's standard lowercase snake_case names.
 
     Maps common column name variations (Date, Close, Adj Close, etc.)
     to the standard: timestamp, open, high, low, close, volume, symbol.
@@ -39,7 +39,7 @@ def validate_ohlcv(df: pl.DataFrame) -> pl.DataFrame:
         raise ValueError(
             f"Missing required columns: {missing}. "
             f"Available columns: {df.columns}. "
-            f"Use alphakit's standard names: {OHLCV_COLUMNS}"
+            f"Use finasys's standard names: {OHLCV_COLUMNS}"
         )
     return df
 

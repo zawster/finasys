@@ -1,6 +1,6 @@
 """Tests for agent tool definitions."""
 
-from alphakit.agents import tools
+from finasys.agents import tools
 
 
 def test_tools_returns_list():

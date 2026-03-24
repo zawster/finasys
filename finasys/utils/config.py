@@ -1,4 +1,4 @@
-"""Global configuration for alphakit."""
+"""Global configuration for finasys."""
 
 from __future__ import annotations
 
@@ -7,10 +7,10 @@ from pathlib import Path
 from pydantic import BaseModel
 
 
-class AlphaKitConfig(BaseModel):
+class FinaSysConfig(BaseModel):
     """Global configuration."""
 
-    cache_dir: Path = Path.home() / ".alphakit" / "cache"
+    cache_dir: Path = Path.home() / ".finasys" / "cache"
     cache_enabled: bool = True
     default_backend: str = "polars"
 
@@ -21,4 +21,4 @@ class AlphaKitConfig(BaseModel):
 
 
 # Global singleton config
-config = AlphaKitConfig()
+config = FinaSysConfig()

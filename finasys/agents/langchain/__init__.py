@@ -1,9 +1,9 @@
-"""LangChain integration for alphakit agent tools.
+"""LangChain integration for finasys agent tools.
 
-Requires: pip install alphakit[langchain]
+Requires: pip install finasys[langchain]
 
 Usage:
-    from alphakit.agents.langchain import get_tools
+    from finasys.agents.langchain import get_tools
     tools = get_tools(symbols=["AAPL", "GOOGL"])
     # Returns List[BaseTool] ready for LangChain agents
 """
@@ -14,7 +14,7 @@ from typing import Any
 
 
 def get_tools(symbols: list[str] | None = None) -> list[Any]:
-    """Get alphakit tools as LangChain BaseTool instances.
+    """Get finasys tools as LangChain BaseTool instances.
 
     Args:
         symbols: Optional list of supported symbols.
@@ -26,10 +26,10 @@ def get_tools(symbols: list[str] | None = None) -> list[Any]:
         ImportError: If langchain-core is not installed.
     """
     try:
-        from alphakit.agents.langchain.tools import create_tools
+        from finasys.agents.langchain.tools import create_tools
     except ImportError:
         raise ImportError(
-            "LangChain integration requires langchain-core. Install it with: pip install alphakit[langchain]"
+            "LangChain integration requires langchain-core. Install it with: pip install finasys[langchain]"
         )
 
     return create_tools(symbols=symbols)

@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest a new feature for alphakit
+about: Suggest a new feature for finasys
 title: "[Feature] "
 labels: enhancement
 assignees: ""
@@ -13,7 +13,7 @@ A clear description of the problem or use case.
 How you'd like the API to work:
 
 ```python
-import alphakit as ak
+import finasys as fs
 
 # Example usage of the proposed feature
 ```

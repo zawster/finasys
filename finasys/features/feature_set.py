@@ -31,7 +31,7 @@ class RSI(FeatureStep):
         super().__init__("RSI", period=period, column=column)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.indicators import rsi
+        from finasys.features.indicators import rsi
 
         return rsi(df, **self.params)
 
@@ -41,7 +41,7 @@ class MACD(FeatureStep):
         super().__init__("MACD", fast=fast, slow=slow, signal=signal, column=column)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.indicators import macd
+        from finasys.features.indicators import macd
 
         return macd(df, **self.params)
 
@@ -51,7 +51,7 @@ class BollingerBands(FeatureStep):
         super().__init__("BollingerBands", period=period, std=std, column=column)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.indicators import bollinger
+        from finasys.features.indicators import bollinger
 
         return bollinger(df, **self.params)
 
@@ -61,7 +61,7 @@ class ATR(FeatureStep):
         super().__init__("ATR", period=period)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.indicators import atr
+        from finasys.features.indicators import atr
 
         return atr(df, **self.params)
 
@@ -71,7 +71,7 @@ class Returns(FeatureStep):
         super().__init__("Returns", periods=periods, column=column)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.returns import returns
+        from finasys.features.returns import returns
 
         return returns(df, **self.params)
 
@@ -81,7 +81,7 @@ class LogReturns(FeatureStep):
         super().__init__("LogReturns", periods=periods, column=column)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.returns import log_returns
+        from finasys.features.returns import log_returns
 
         return log_returns(df, **self.params)
 
@@ -96,7 +96,7 @@ class RollingStats(FeatureStep):
         super().__init__("RollingStats", windows=windows, column=column, stats=stats)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.rolling import rolling_stats
+        from finasys.features.rolling import rolling_stats
 
         return rolling_stats(df, **self.params)
 
@@ -106,7 +106,7 @@ class Lags(FeatureStep):
         super().__init__("Lags", columns=columns, lags=lags)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.lags import lags
+        from finasys.features.lags import lags
 
         return lags(df, **self.params)
 
@@ -116,7 +116,7 @@ class Calendar(FeatureStep):
         super().__init__("Calendar", column=column)
 
     def transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        from alphakit.features.calendar import calendar_features
+        from finasys.features.calendar import calendar_features
 
         return calendar_features(df, **self.params)
 
@@ -139,17 +139,17 @@ class FeatureSet:
     """A composable, serializable pipeline of feature transformations.
 
     Usage:
-        feature_set = ak.FeatureSet([
-            ak.features.RSI(period=14),
-            ak.features.MACD(),
-            ak.features.Returns(periods=[1, 5, 21]),
+        feature_set = fs.FeatureSet([
+            fs.features.RSI(period=14),
+            fs.features.MACD(),
+            fs.features.Returns(periods=[1, 5, 21]),
         ])
 
         df = feature_set.transform(df)
 
         # Serialize for reproducibility
         feature_set.save("features.json")
-        loaded = ak.FeatureSet.load("features.json")
+        loaded = fs.FeatureSet.load("features.json")
     """
 
     def __init__(self, steps: list[FeatureStep] | None = None):

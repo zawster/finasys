@@ -17,7 +17,7 @@ def context(
     most useful for an LLM to answer the question.
 
     Args:
-        df: Financial DataFrame with alphakit standard columns.
+        df: Financial DataFrame with finasys standard columns.
         query: Natural language query (e.g., "What is the recent momentum?").
         max_tokens: Approximate token budget for the response.
         format: Output format -- "markdown", "json", or "text".

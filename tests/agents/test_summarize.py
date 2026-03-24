@@ -1,6 +1,6 @@
 """Tests for agent summarization."""
 
-from alphakit.agents import summarize
+from finasys.agents import summarize
 
 
 def test_summarize_basic(ohlcv_df):
@@ -11,7 +11,7 @@ def test_summarize_basic(ohlcv_df):
 
 
 def test_summarize_with_indicators(ohlcv_df):
-    from alphakit.features import add_all
+    from finasys.features import add_all
 
     df = add_all(ohlcv_df)
     result = summarize(df)

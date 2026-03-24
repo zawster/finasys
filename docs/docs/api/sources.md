@@ -1,29 +1,29 @@
 # Sources API
 
-## `ak.load()`
+## `fs.load()`
 
-The single entry point for all data loading in alphakit.
+The single entry point for all data loading in finasys.
 
 ```python
-import alphakit as ak
+import finasys as fs
 
 # Single ticker from Yahoo Finance
-df = ak.load("AAPL", start="2024-01-01")
+df = fs.load("AAPL", start="2024-01-01")
 
 # Multiple tickers (stacked with 'symbol' column)
-df = ak.load(["AAPL", "GOOGL", "MSFT"], start="2024-01-01")
+df = fs.load(["AAPL", "GOOGL", "MSFT"], start="2024-01-01")
 
 # Local CSV or Parquet file
-df = ak.load("./data/prices.csv")
+df = fs.load("./data/prices.csv")
 
 # With date range
-df = ak.load("AAPL", start="2024-01-01", end="2024-12-31")
+df = fs.load("AAPL", start="2024-01-01", end="2024-12-31")
 
 # Get pandas DataFrame instead of Polars
-df = ak.load("AAPL", start="2024-01-01", backend="pandas")
+df = fs.load("AAPL", start="2024-01-01", backend="pandas")
 
 # Disable caching
-df = ak.load("AAPL", start="2024-01-01", use_cache=False)
+df = fs.load("AAPL", start="2024-01-01", use_cache=False)
 ```
 
 **Parameters:**
@@ -46,22 +46,22 @@ df = ak.load("AAPL", start="2024-01-01", use_cache=False)
 
 ---
 
-## `ak.cache_clear()`
+## `fs.cache_clear()`
 
 Clear the DuckDB local cache.
 
 ```python
-ak.cache_clear()          # Clear all cached data
-ak.cache_clear("AAPL")    # Clear only AAPL data
+fs.cache_clear()          # Clear all cached data
+fs.cache_clear("AAPL")    # Clear only AAPL data
 ```
 
 ---
 
 ## Standardized Column Names
 
-alphakit normalizes all column names to a standard format:
+finasys normalizes all column names to a standard format:
 
-| Input Variations | alphakit Standard |
+| Input Variations | finasys Standard |
 |------------------|-------------------|
 | `Date`, `Datetime`, `time` | `timestamp` |
 | `Open` | `open` |

@@ -1,4 +1,4 @@
-"""Shared test fixtures for alphakit tests.
+"""Shared test fixtures for finasys tests.
 
 All fixtures use synthetic data -- no network calls required.
 """

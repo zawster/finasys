@@ -6,7 +6,7 @@ from pathlib import Path
 
 import polars as pl
 
-from alphakit.sources.schema import (
+from finasys.sources.schema import (
     cast_ohlcv_types,
     detect_ohlcv_schema,
     standardize_columns,
@@ -17,7 +17,7 @@ def load_local(path: str | Path) -> pl.DataFrame:
     """Load a local CSV or Parquet file and standardize to OHLCV schema.
 
     Automatically detects file format by extension, renames columns
-    to alphakit standard names, and casts types.
+    to finasys standard names, and casts types.
 
     Args:
         path: Path to a CSV or Parquet file.

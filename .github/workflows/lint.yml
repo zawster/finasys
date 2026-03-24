@@ -23,7 +23,7 @@ jobs:
           pip install ruff
 
       - name: Ruff lint
-        run: ruff check alphakit/ tests/
+        run: ruff check finasys/ tests/
 
       - name: Ruff format check
-        run: ruff format --check alphakit/ tests/
+        run: ruff format --check finasys/ tests/

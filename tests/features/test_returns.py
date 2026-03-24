@@ -1,6 +1,6 @@
 """Tests for return calculations."""
 
-from alphakit.features import cumulative_returns, drawdown, log_returns, returns
+from finasys.features import cumulative_returns, drawdown, log_returns, returns
 
 
 class TestReturns:
