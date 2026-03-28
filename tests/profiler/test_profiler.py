@@ -1,7 +1,5 @@
 """Tests for the smart financial data profiler."""
 
-import polars as pl
-import pytest
 
 
 class TestProfile:

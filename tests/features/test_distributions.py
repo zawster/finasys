@@ -1,7 +1,5 @@
 """Tests for distribution analysis features."""
 
-import polars as pl
-import pytest
 
 
 class TestRollingSkewness:

@@ -1,7 +1,6 @@
 """Tests for target/label engineering."""
 
 import polars as pl
-import pytest
 
 
 class TestForwardReturns:
