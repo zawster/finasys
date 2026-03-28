@@ -1,7 +1,6 @@
 """Tests for distribution analysis features."""
 
 
-
 class TestRollingSkewness:
     def test_basic(self, ohlcv_df):
         from finasys.features.distributions import rolling_skewness

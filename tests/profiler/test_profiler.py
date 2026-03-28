@@ -1,7 +1,6 @@
 """Tests for the smart financial data profiler."""
 
 
-
 class TestProfile:
     def test_basic(self, ohlcv_df):
         from finasys.profiler import profile

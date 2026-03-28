@@ -208,9 +208,7 @@ def _compute_quality(df: pl.DataFrame, column: str) -> DataQualityReport:
                 mean = pct_change.mean()
                 std = pct_change.std()
                 if std is not None and std > 1e-15:
-                    outlier_count = pct_change.filter(
-                        (pct_change - mean).abs() > 4 * std
-                    ).len()
+                    outlier_count = pct_change.filter((pct_change - mean).abs() > 4 * std).len()
                     if outlier_count > 0:
                         report.price_outliers[pc] = outlier_count
 
@@ -219,13 +217,9 @@ def _compute_quality(df: pl.DataFrame, column: str) -> DataQualityReport:
         if col.dtype.is_numeric() and col.len() > 1:
             pct_change = col / col.shift(1) - 1
             if "timestamp" in df.columns:
-                split_df = df.with_columns(pct_change.alias("_pct")).filter(
-                    pl.col("_pct").abs() > 0.2
-                )
+                split_df = df.with_columns(pct_change.alias("_pct")).filter(pl.col("_pct").abs() > 0.2)
                 if split_df.height > 0:
-                    report.suspected_splits = [
-                        str(d) for d in split_df["timestamp"].to_list()
-                    ]
+                    report.suspected_splits = [str(d) for d in split_df["timestamp"].to_list()]
 
     return report
 

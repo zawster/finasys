@@ -31,9 +31,7 @@ def _apply_rolling_map(
     """
     if has_multi_symbols(df):
         ret_col = f"_ret_{output_name}"
-        df_tmp = df.with_columns(
-            (pl.col(column) / pl.col(column).shift(1).over("symbol") - 1).alias(ret_col)
-        )
+        df_tmp = df.with_columns((pl.col(column) / pl.col(column).shift(1).over("symbol") - 1).alias(ret_col))
         frames = []
         for sym in df_tmp["symbol"].unique().sort().to_list():
             sym_df = df_tmp.filter(pl.col("symbol") == sym)
@@ -43,9 +41,7 @@ def _apply_rolling_map(
         return pl.concat(frames).sort(["timestamp", "symbol"]).drop(ret_col)
     else:
         ret_col = f"_ret_{output_name}"
-        df_tmp = df.with_columns(
-            (pl.col(column) / pl.col(column).shift(1) - 1).alias(ret_col)
-        )
+        df_tmp = df.with_columns((pl.col(column) / pl.col(column).shift(1) - 1).alias(ret_col))
         series = map_fn(df_tmp[ret_col])
         return df_tmp.with_columns(series.alias(output_name)).drop(ret_col)
 
