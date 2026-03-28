@@ -187,6 +187,40 @@ class TestCVaR:
         assert "cvar_30" in result.columns
 
 
+class TestSortinoEdgeCases:
+    def test_scalar_zero_std_downside(self):
+        from finasys.stats.risk import sortino_ratio
+
+        # Only one negative return, can't compute std
+        df = pl.DataFrame({"close": [100.0, 99.0, 101.0, 102.0, 103.0, 104.0]})
+        result = sortino_ratio(df)
+        assert isinstance(result, float)
+
+    def test_negative_returns_only(self):
+        from finasys.stats.risk import sortino_ratio
+
+        df = pl.DataFrame({"close": [100.0 - i * 0.5 for i in range(30)]})
+        result = sortino_ratio(df)
+        assert isinstance(result, float)
+        assert result <= 0
+
+
+class TestVaREdgeCases:
+    def test_parametric_method(self, ohlcv_df):
+        from finasys.stats.risk import value_at_risk
+
+        result = value_at_risk(ohlcv_df, confidence=0.95, method="parametric")
+        assert isinstance(result, float)
+        assert result < 0
+
+    def test_rolling_cornish_fisher(self, ohlcv_df):
+        from finasys.stats.risk import value_at_risk
+
+        result = value_at_risk(ohlcv_df, window=30, method="cornish_fisher")
+        assert isinstance(result, pl.DataFrame)
+        assert "var_30" in result.columns
+
+
 class TestMaxDrawdownDuration:
     def test_basic(self, ohlcv_df):
         from finasys.stats.risk import max_drawdown_duration

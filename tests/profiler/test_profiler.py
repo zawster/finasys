@@ -158,6 +158,61 @@ class TestProfile:
         assert report.quality.duplicate_rows > 0
 
 
+class TestProfileEdgeCases:
+    def test_short_distribution(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame({"close": [100.0, 101.0, 102.0]})
+        report = profile(df)
+        # Too few returns for distribution analysis
+        assert report.distribution.jarque_bera_stat == 0.0
+
+    def test_constant_price_distribution(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame({"close": [100.0] * 20})
+        report = profile(df)
+        # Zero variance returns
+        assert report.distribution.returns_skewness == 0.0
+
+    def test_column_with_few_values(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame({"close": [100.0, None, None]})
+        report = profile(df)
+        cs = report.column_stats["close"]
+        assert cs.null_count == 2
+
+    def test_no_outliers_in_stable_data(self):
+        from finasys.profiler import profile
+
+        # Very stable prices -> no outliers
+        df = pl.DataFrame(
+            {
+                "timestamp": [date(2024, 1, i) for i in range(1, 21)],
+                "close": [100.0 + i * 0.01 for i in range(20)],
+                "open": [100.0 + i * 0.01 for i in range(20)],
+                "high": [100.0 + i * 0.01 + 0.005 for i in range(20)],
+                "low": [100.0 + i * 0.01 - 0.005 for i in range(20)],
+            }
+        )
+        report = profile(df)
+        assert report.quality.price_outliers == {}
+
+    def test_empty_timestamp(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame(
+            {
+                "timestamp": pl.Series([], dtype=pl.Date),
+                "close": pl.Series([], dtype=pl.Float64),
+            }
+        )
+        report = profile(df)
+        assert report.shape == (0, 2)
+        assert report.quality.missing_dates == []
+
+
 class TestProfileSummary:
     def test_basic(self, ohlcv_df):
         from finasys.profiler import profile_summary
@@ -208,16 +263,18 @@ class TestProfileSummary:
         result = profile_summary(multi_symbol_df)
         assert "Symbols:" in result
 
-    def test_quality_issues_shown(self):
+    def test_quality_issues_shown_with_all_issues(self):
         from finasys.profiler import profile_summary
 
-        # Create df with a gap to trigger quality issues
-        dates = [date(2024, 1, 2), date(2024, 1, 3), date(2024, 1, 5), date(2024, 1, 8), date(2024, 1, 9)]
+        # Create data that triggers all quality issue branches
+        dates = [date(2024, 1, 2), date(2024, 1, 3), date(2024, 1, 3), date(2024, 1, 5), date(2024, 1, 8)]
         df = pl.DataFrame(
             {
                 "timestamp": dates,
-                "close": [100.0, 101.0, 102.0, 103.0, 104.0],
+                "close": [100.0, 101.0, 101.0, 130.0, 103.0],  # >20% jump = suspected split, >4sigma = outlier
+                "volume": [1000.0, 0.0, 1000.0, 1000.0, 1000.0],
             }
         )
         result = profile_summary(df)
-        assert "Quality issues:" in result or "No issues" in result
+        # Should hit duplicate, zero-volume, suspected split branches
+        assert "Quality issues:" in result

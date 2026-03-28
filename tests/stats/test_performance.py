@@ -58,6 +58,34 @@ class TestAlphaBeta:
         assert "beta_30" in result.columns
 
 
+class TestAlphaBetaEdgeCases:
+    def test_constant_benchmark(self, ohlcv_df):
+        from finasys.stats.performance import alpha_beta
+
+        # Constant benchmark -> zero variance -> beta undefined
+        df = ohlcv_df.with_columns(pl.lit(100.0).alias("benchmark_close"))
+        result = alpha_beta(df, benchmark_col="benchmark_close", window=30)
+        assert isinstance(result, pl.DataFrame)
+        # Rolling beta values should handle zero-variance gracefully
+
+    def test_identical_asset_benchmark(self, ohlcv_df):
+        from finasys.stats.performance import alpha_beta
+
+        df = ohlcv_df.with_columns(pl.col("close").alias("benchmark_close"))
+        result = alpha_beta(df, benchmark_col="benchmark_close")
+        assert abs(result["beta"] - 1.0) < 0.01
+        assert abs(result["alpha"]) < 0.1
+
+
+class TestInformationRatioEdgeCases:
+    def test_identical_returns(self, ohlcv_df):
+        from finasys.stats.performance import information_ratio
+
+        df = ohlcv_df.with_columns(pl.col("close").alias("benchmark_close"))
+        result = information_ratio(df, benchmark_col="benchmark_close")
+        assert result == 0.0  # Zero tracking error
+
+
 class TestInformationRatio:
     def test_basic(self, ohlcv_df):
         from finasys.stats.performance import information_ratio
