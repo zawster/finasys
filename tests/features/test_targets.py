@@ -93,6 +93,34 @@ class TestTripleBarrierLabels:
             assert sym_df["tb_label"].drop_nulls().len() > 0
 
 
+class TestTripleBarrierWithNaN:
+    def test_nan_in_prices(self):
+        from datetime import date, timedelta
+
+        from finasys.features.targets import triple_barrier_labels
+
+        # Prices with a NaN
+        dates = [date(2024, 1, 1) + timedelta(days=i) for i in range(20)]
+        prices = [100.0 + i * 0.5 for i in range(20)]
+        prices[5] = float("nan")  # NaN in middle
+        df = pl.DataFrame({"timestamp": dates, "close": prices})
+        result = triple_barrier_labels(df, profit_take=0.05, stop_loss=0.05, max_holding=10)
+        assert "tb_label" in result.columns
+        assert result.height == 20
+
+    def test_zero_price(self):
+        from datetime import date, timedelta
+
+        from finasys.features.targets import triple_barrier_labels
+
+        dates = [date(2024, 1, 1) + timedelta(days=i) for i in range(10)]
+        prices = [100.0] * 10
+        prices[3] = 0.0  # Zero price entry should be skipped
+        df = pl.DataFrame({"timestamp": dates, "close": prices})
+        result = triple_barrier_labels(df)
+        assert "tb_label" in result.columns
+
+
 class TestTripleBarrierEdgeCases:
     def test_tight_barriers(self, ohlcv_df):
         from finasys.features.targets import triple_barrier_labels

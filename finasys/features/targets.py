@@ -175,9 +175,16 @@ def _apply_triple_barrier(
         durations[i] = hit_bar - i
         exit_returns[i] = hit_return
 
+    # NaN entries (from skipped zero/NaN prices) become null after cast
+    tb_label = pl.Series("tb_label", labels)
+    tb_duration = pl.Series("tb_duration", durations)
+    mask = tb_label.is_nan()
+    tb_label = tb_label.set(mask, None).cast(pl.Int32)
+    tb_duration = tb_duration.set(mask, None).cast(pl.Int32)
+
     return df.with_columns(
-        pl.Series("tb_label", labels).cast(pl.Int32),
-        pl.Series("tb_duration", durations).cast(pl.Int32),
+        tb_label,
+        tb_duration,
         pl.Series("tb_return", exit_returns),
     )
 

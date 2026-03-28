@@ -62,6 +62,39 @@ class TestRollingJarqueBera:
             assert (non_nan >= 0).all()
 
 
+class TestRollingKurtosisEdgeCases:
+    def test_short_window(self, ohlcv_df):
+        from finasys.features.distributions import rolling_kurtosis
+
+        # Window larger than useful data should produce NaN early values
+        result = rolling_kurtosis(ohlcv_df, window=90)
+        assert "rolling_kurtosis_90" in result.columns
+        # First 89 values should be NaN
+        first_vals = result["rolling_kurtosis_90"].head(89)
+        assert first_vals.is_null().all() or first_vals.is_nan().all()
+
+
+class TestTailRatioEdgeCases:
+    def test_small_window(self, ohlcv_df):
+        from finasys.features.distributions import tail_ratio
+
+        result = tail_ratio(ohlcv_df, window=50)
+        assert "tail_ratio_50" in result.columns
+
+
+class TestRollingJarqueBeraEdgeCases:
+    def test_large_window(self, ohlcv_df):
+        from finasys.features.distributions import rolling_jarque_bera
+
+        result = rolling_jarque_bera(ohlcv_df, window=50)
+        assert "rolling_jb_50" in result.columns
+        # JB should be non-negative where computed
+        jb = result["rolling_jb_50"].drop_nulls()
+        non_nan = jb.filter(~jb.is_nan())
+        if non_nan.len() > 0:
+            assert (non_nan >= 0).all()
+
+
 class TestZscoreReturns:
     def test_basic(self, ohlcv_df):
         from finasys.features.distributions import zscore_returns
