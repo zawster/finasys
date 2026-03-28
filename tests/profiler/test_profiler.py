@@ -1,5 +1,9 @@
 """Tests for the smart financial data profiler."""
 
+from datetime import date
+
+import polars as pl
+
 
 class TestProfile:
     def test_basic(self, ohlcv_df):
@@ -66,6 +70,93 @@ class TestProfile:
         assert "AAPL" in report.symbols
         assert "GOOGL" in report.symbols
 
+    def test_missing_dates_detected(self, ohlcv_df):
+        from finasys.profiler import profile
+
+        # Remove some rows to create gaps
+        df = ohlcv_df.head(50).filter(pl.col("timestamp").cast(str) != str(ohlcv_df["timestamp"].item(5)))
+        report = profile(df)
+        assert len(report.quality.missing_dates) > 0
+
+    def test_no_timestamp_column(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame({"close": [100.0, 101.0, 102.0, 103.0, 104.0]})
+        report = profile(df)
+        assert report.date_range == ("", "")
+        assert report.quality.missing_dates == []
+
+    def test_no_volume_column(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame(
+            {
+                "timestamp": [date(2024, 1, i) for i in range(1, 11)],
+                "close": [100.0 + i for i in range(10)],
+            }
+        )
+        report = profile(df)
+        assert report.quality.zero_volume_days == 0
+
+    def test_non_numeric_column(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame(
+            {
+                "timestamp": [date(2024, 1, i) for i in range(1, 6)],
+                "close": [100.0, 101.0, 102.0, 103.0, 104.0],
+                "notes": ["a", "b", "c", "d", "e"],
+            }
+        )
+        report = profile(df)
+        cs = report.column_stats["notes"]
+        assert cs.mean is None
+        assert cs.quantiles == {}
+
+    def test_missing_close_column(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame({"price": [100.0, 101.0, 102.0, 103.0, 104.0]})
+        report = profile(df, column="nonexistent")
+        assert report.distribution.returns_skewness == 0.0
+
+    def test_very_short_df(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame(
+            {
+                "timestamp": [date(2024, 1, 1)],
+                "close": [100.0],
+            }
+        )
+        report = profile(df)
+        assert report.shape == (1, 2)
+
+    def test_zero_volume_detected(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame(
+            {
+                "timestamp": [date(2024, 1, i) for i in range(1, 11)],
+                "close": [100.0 + i for i in range(10)],
+                "volume": [1000.0, 0.0, 1000.0, 0.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0],
+            }
+        )
+        report = profile(df)
+        assert report.quality.zero_volume_days == 2
+
+    def test_duplicates_detected(self):
+        from finasys.profiler import profile
+
+        df = pl.DataFrame(
+            {
+                "timestamp": [date(2024, 1, 1)] * 3,
+                "close": [100.0] * 3,
+            }
+        )
+        report = profile(df)
+        assert report.quality.duplicate_rows > 0
+
 
 class TestProfileSummary:
     def test_basic(self, ohlcv_df):
@@ -88,3 +179,45 @@ class TestProfileSummary:
 
         result = profile_summary(simple_close_df)
         assert isinstance(result, str)
+
+    def test_no_issues_message(self):
+        from finasys.profiler import profile_summary
+
+        # Create a clean df with no gaps, no outliers, consecutive business days
+        dates = []
+        d = date(2024, 1, 2)
+        from datetime import timedelta
+
+        while len(dates) < 20:
+            if d.weekday() < 5:
+                dates.append(d)
+            d += timedelta(days=1)
+
+        df = pl.DataFrame(
+            {
+                "timestamp": dates,
+                "close": [100.0 + i * 0.1 for i in range(20)],
+            }
+        )
+        result = profile_summary(df)
+        assert "No issues detected" in result
+
+    def test_with_symbols(self, multi_symbol_df):
+        from finasys.profiler import profile_summary
+
+        result = profile_summary(multi_symbol_df)
+        assert "Symbols:" in result
+
+    def test_quality_issues_shown(self):
+        from finasys.profiler import profile_summary
+
+        # Create df with a gap to trigger quality issues
+        dates = [date(2024, 1, 2), date(2024, 1, 3), date(2024, 1, 5), date(2024, 1, 8), date(2024, 1, 9)]
+        df = pl.DataFrame(
+            {
+                "timestamp": dates,
+                "close": [100.0, 101.0, 102.0, 103.0, 104.0],
+            }
+        )
+        result = profile_summary(df)
+        assert "Quality issues:" in result or "No issues" in result
