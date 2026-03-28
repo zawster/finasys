@@ -23,6 +23,13 @@ import polars as pl
 
 from finasys.features.calendar import calendar_features
 from finasys.features.cross import cross_percentile, cross_rank, cross_zscore
+from finasys.features.distributions import (
+    rolling_jarque_bera,
+    rolling_kurtosis,
+    rolling_skewness,
+    tail_ratio,
+    zscore_returns,
+)
 
 # --- Composable step classes (PascalCase) ---
 from finasys.features.feature_set import (
@@ -31,12 +38,20 @@ from finasys.features.feature_set import (
     RSI,
     BollingerBands,
     Calendar,
+    ClassifyReturns,
     FeatureSet,
     FeatureStep,
+    ForwardReturns,
     Lags,
     LogReturns,
     Returns,
+    RollingKurtosis,
+    RollingSkewness,
     RollingStats,
+    TailRatio,
+    TripleBarrier,
+    VolAdjustedLabels,
+    ZscoreReturns,
 )
 
 # --- Functional API (lowercase) ---
@@ -65,6 +80,12 @@ from finasys.features.returns import (
     returns,
 )
 from finasys.features.rolling import rolling_stats
+from finasys.features.targets import (
+    classify_returns,
+    forward_returns,
+    triple_barrier_labels,
+    volatility_adjusted_labels,
+)
 
 
 def add_all(
@@ -155,6 +176,17 @@ __all__ = [
     "cross_rank",
     "cross_percentile",
     "cross_zscore",
+    # Targets
+    "forward_returns",
+    "classify_returns",
+    "triple_barrier_labels",
+    "volatility_adjusted_labels",
+    # Distributions
+    "rolling_skewness",
+    "rolling_kurtosis",
+    "tail_ratio",
+    "rolling_jarque_bera",
+    "zscore_returns",
     # Composable steps
     "RSI",
     "MACD",
@@ -165,6 +197,14 @@ __all__ = [
     "RollingStats",
     "Lags",
     "Calendar",
+    "ForwardReturns",
+    "ClassifyReturns",
+    "TripleBarrier",
+    "VolAdjustedLabels",
+    "RollingSkewness",
+    "RollingKurtosis",
+    "TailRatio",
+    "ZscoreReturns",
     "FeatureSet",
     "FeatureStep",
     # Convenience
