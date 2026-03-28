@@ -23,9 +23,12 @@ nav:
   - API Reference:
       - Sources: api/sources.md
       - Features: api/features.md
+      - Stats: api/stats.md
+      - Profiler: api/profiler.md
       - Agents: api/agents.md
   - Tutorials:
       - Feature Pipeline: tutorials/feature_pipeline.md
+      - ML Workflow: tutorials/ml_workflow.md
       - AI Agent Integration: tutorials/agent_integration.md
 
 markdown_extensions:
