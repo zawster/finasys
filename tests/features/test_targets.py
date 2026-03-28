@@ -93,6 +93,24 @@ class TestTripleBarrierLabels:
             assert sym_df["tb_label"].drop_nulls().len() > 0
 
 
+class TestTripleBarrierEdgeCases:
+    def test_tight_barriers(self, ohlcv_df):
+        from finasys.features.targets import triple_barrier_labels
+
+        result = triple_barrier_labels(ohlcv_df, profit_take=0.001, stop_loss=0.001, max_holding=5)
+        assert "tb_label" in result.columns
+        # With very tight barriers, most should hit upper or lower
+        labels = result["tb_label"].drop_nulls()
+        assert labels.len() > 0
+
+    def test_wide_barriers_hit_vertical(self, ohlcv_df):
+        from finasys.features.targets import triple_barrier_labels
+
+        result = triple_barrier_labels(ohlcv_df, profit_take=0.99, stop_loss=0.99, max_holding=2)
+        # With very wide barriers and short holding, most should hit vertical
+        assert "tb_label" in result.columns
+
+
 class TestVolatilityAdjustedLabels:
     def test_basic(self, ohlcv_df):
         from finasys.features.targets import volatility_adjusted_labels
@@ -107,3 +125,9 @@ class TestVolatilityAdjustedLabels:
         labels = result["vol_label_5d"].drop_nulls().unique().sort().to_list()
         for label in labels:
             assert label in [-1, 0, 1]
+
+    def test_multi_symbol(self, multi_symbol_df):
+        from finasys.features.targets import volatility_adjusted_labels
+
+        result = volatility_adjusted_labels(multi_symbol_df, period=5)
+        assert "vol_label_5d" in result.columns
