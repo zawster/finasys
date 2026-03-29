@@ -46,6 +46,48 @@ df = feature_set.transform(df)
 feature_set.save("my_pipeline.json")  # reproducible
 ```
 
+## ML Targets
+
+```python
+# Forward returns for regression
+df = fs.features.forward_returns(df, periods=[1, 5])
+
+# Classification labels
+df = fs.features.classify_returns(df, period=5)
+
+# Triple-barrier labeling (Lopez de Prado method)
+df = fs.features.triple_barrier_labels(df, profit_take=0.02, stop_loss=0.02)
+```
+
+## Distribution Features
+
+```python
+df = fs.features.rolling_kurtosis(df, window=30)
+df = fs.features.zscore_returns(df, window=30)
+df = fs.features.tail_ratio(df, window=30)
+```
+
+## Risk Metrics
+
+```python
+# Scalar metrics
+sharpe = fs.stats.sharpe_ratio(df)
+var = fs.stats.value_at_risk(df, confidence=0.95)
+
+# Rolling metrics (as ML features)
+df = fs.stats.sharpe_ratio(df, window=63)
+```
+
+## Smart Profiler
+
+```python
+# One-call data quality check
+print(fs.profiler.profile_summary(df))
+
+# Full structured report
+report = fs.profiler.profile(df)
+```
+
 ## AI Agent Tools
 
 ```python

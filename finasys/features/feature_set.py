@@ -121,6 +121,123 @@ class Calendar(FeatureStep):
         return calendar_features(df, **self.params)
 
 
+# --- Target/Label steps ---
+
+
+class ForwardReturns(FeatureStep):
+    def __init__(self, periods: list[int] | int = 1, column: str = "close"):
+        super().__init__("ForwardReturns", periods=periods, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.targets import forward_returns
+
+        return forward_returns(df, **self.params)
+
+
+class ClassifyReturns(FeatureStep):
+    def __init__(
+        self,
+        period: int = 5,
+        thresholds: tuple[float, float] | list[float] = (-0.01, 0.01),
+        column: str = "close",
+    ):
+        super().__init__("ClassifyReturns", period=period, thresholds=list(thresholds), column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.targets import classify_returns
+
+        params = dict(self.params)
+        params["thresholds"] = tuple(params["thresholds"])
+        return classify_returns(df, **params)
+
+
+class TripleBarrier(FeatureStep):
+    def __init__(
+        self,
+        profit_take: float = 0.02,
+        stop_loss: float = 0.02,
+        max_holding: int = 10,
+        column: str = "close",
+    ):
+        super().__init__(
+            "TripleBarrier",
+            profit_take=profit_take,
+            stop_loss=stop_loss,
+            max_holding=max_holding,
+            column=column,
+        )
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.targets import triple_barrier_labels
+
+        return triple_barrier_labels(df, **self.params)
+
+
+class VolAdjustedLabels(FeatureStep):
+    def __init__(
+        self,
+        period: int = 5,
+        vol_window: int = 21,
+        vol_multiplier: float = 1.0,
+        column: str = "close",
+    ):
+        super().__init__(
+            "VolAdjustedLabels",
+            period=period,
+            vol_window=vol_window,
+            vol_multiplier=vol_multiplier,
+            column=column,
+        )
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.targets import volatility_adjusted_labels
+
+        return volatility_adjusted_labels(df, **self.params)
+
+
+# --- Distribution steps ---
+
+
+class RollingSkewness(FeatureStep):
+    def __init__(self, window: int = 63, column: str = "close"):
+        super().__init__("RollingSkewness", window=window, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.distributions import rolling_skewness
+
+        return rolling_skewness(df, **self.params)
+
+
+class RollingKurtosis(FeatureStep):
+    def __init__(self, window: int = 63, column: str = "close"):
+        super().__init__("RollingKurtosis", window=window, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.distributions import rolling_kurtosis
+
+        return rolling_kurtosis(df, **self.params)
+
+
+class TailRatio(FeatureStep):
+    def __init__(self, window: int = 63, percentile: float = 0.05, column: str = "close"):
+        super().__init__("TailRatio", window=window, percentile=percentile, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.distributions import tail_ratio
+
+        return tail_ratio(df, **self.params)
+
+
+class ZscoreReturns(FeatureStep):
+    def __init__(self, window: int = 63, column: str = "close"):
+        super().__init__("ZscoreReturns", window=window, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.distributions import zscore_returns
+
+        return zscore_returns(df, **self.params)
+
+
 # Registry for deserialization
 _STEP_REGISTRY: dict[str, type[FeatureStep]] = {
     "RSI": RSI,
@@ -132,6 +249,16 @@ _STEP_REGISTRY: dict[str, type[FeatureStep]] = {
     "RollingStats": RollingStats,
     "Lags": Lags,
     "Calendar": Calendar,
+    # Targets
+    "ForwardReturns": ForwardReturns,
+    "ClassifyReturns": ClassifyReturns,
+    "TripleBarrier": TripleBarrier,
+    "VolAdjustedLabels": VolAdjustedLabels,
+    # Distributions
+    "RollingSkewness": RollingSkewness,
+    "RollingKurtosis": RollingKurtosis,
+    "TailRatio": TailRatio,
+    "ZscoreReturns": ZscoreReturns,
 }
 
 

@@ -27,9 +27,22 @@ print(fs.agents.summarize(df))
 pip install finasys
 ```
 
+## Key Modules
+
+| Module | What it does |
+|--------|-------------|
+| **`fs.load()`** | Load from Yahoo Finance, CSV, Parquet with auto-caching |
+| **`fs.features`** | 15+ indicators, returns, rolling stats, lags, calendar, cross-sectional |
+| **`fs.features` (targets)** | Forward returns, classification labels, triple-barrier labeling |
+| **`fs.features` (distributions)** | Rolling skewness, kurtosis, tail ratio, Jarque-Bera |
+| **`fs.stats`** | Sharpe, Sortino, Calmar, VaR, CVaR, alpha/beta, drawdown duration |
+| **`fs.profiler`** | One-call data profiling: quality checks, distribution analysis |
+| **`fs.agents`** | LLM summaries, OpenAI tools, RAG context, LangChain integration |
+
 ## Why finasys?
 
 - **Polars-first** -- 10-100x faster than pandas-ta, zero C dependencies
 - **Financial-native** -- every function understands OHLCV, ticks, fundamentals
+- **ML-ready** -- target engineering, risk metrics, and data profiling built in
 - **Agent-ready** -- structured outputs designed for LLM consumption
 - **Symbol-aware** -- multi-symbol DataFrames work correctly out of the box
