@@ -238,6 +238,49 @@ class ZscoreReturns(FeatureStep):
         return zscore_returns(df, **self.params)
 
 
+# --- Regime steps ---
+
+
+class VolatilityRegime(FeatureStep):
+    def __init__(self, fast_window: int = 21, slow_window: int = 63, column: str = "close"):
+        super().__init__("VolatilityRegime", fast_window=fast_window, slow_window=slow_window, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.regime import volatility_regime
+
+        return volatility_regime(df, **self.params)
+
+
+class TrendStrength(FeatureStep):
+    def __init__(self, window: int = 63, column: str = "close"):
+        super().__init__("TrendStrength", window=window, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.regime import trend_strength
+
+        return trend_strength(df, **self.params)
+
+
+class MarketState(FeatureStep):
+    def __init__(self, vol_window: int = 21, trend_window: int = 63, column: str = "close"):
+        super().__init__("MarketState", vol_window=vol_window, trend_window=trend_window, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.regime import market_state
+
+        return market_state(df, **self.params)
+
+
+class BreakoutDetection(FeatureStep):
+    def __init__(self, window: int = 20, n_std: float = 2.0, column: str = "close"):
+        super().__init__("BreakoutDetection", window=window, n_std=n_std, column=column)
+
+    def transform(self, df: pl.DataFrame) -> pl.DataFrame:
+        from finasys.features.regime import breakout_detection
+
+        return breakout_detection(df, **self.params)
+
+
 # Registry for deserialization
 _STEP_REGISTRY: dict[str, type[FeatureStep]] = {
     "RSI": RSI,
@@ -259,6 +302,11 @@ _STEP_REGISTRY: dict[str, type[FeatureStep]] = {
     "RollingKurtosis": RollingKurtosis,
     "TailRatio": TailRatio,
     "ZscoreReturns": ZscoreReturns,
+    # Regime
+    "VolatilityRegime": VolatilityRegime,
+    "TrendStrength": TrendStrength,
+    "MarketState": MarketState,
+    "BreakoutDetection": BreakoutDetection,
 }
 
 

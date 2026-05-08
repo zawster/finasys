@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import tempfile
 from datetime import date
 from pathlib import Path
 
@@ -20,7 +21,12 @@ def _get_db_path() -> Path:
 def _get_connection() -> duckdb.DuckDBPyConnection:
     """Create a DuckDB connection and ensure the cache table exists."""
     db_path = _get_db_path()
-    conn = duckdb.connect(str(db_path))
+    try:
+        conn = duckdb.connect(str(db_path))
+    except duckdb.IOException:
+        fallback_dir = Path(tempfile.gettempdir()) / "finasys" / "cache"
+        fallback_dir.mkdir(parents=True, exist_ok=True)
+        conn = duckdb.connect(str(fallback_dir / "finasys_cache.duckdb"))
     conn.execute("""
         CREATE TABLE IF NOT EXISTS ohlcv_cache (
             symbol VARCHAR,

@@ -1,7 +1,9 @@
 """Tests for the DuckDB cache layer."""
 
 from datetime import date
+from pathlib import Path
 
+import duckdb
 import polars as pl
 import pytest
 
@@ -77,3 +79,72 @@ class TestCachePutGet:
         assert result is not None
         assert result["symbol"][0] == "CORRECT"
         cache_clear("CORRECT")
+
+    def test_connection_fallback_path(self, tmp_path, monkeypatch):
+        import finasys.sources.cache as cache_mod
+
+        real_connect = duckdb.connect
+        calls = []
+
+        def fake_connect(path):
+            calls.append(Path(path))
+            if len(calls) == 1:
+                raise duckdb.IOException("primary cache unavailable")
+            return real_connect(str(tmp_path / "fallback.duckdb"))
+
+        monkeypatch.setattr(cache_mod.duckdb, "connect", fake_connect)
+        monkeypatch.setattr(cache_mod.tempfile, "gettempdir", lambda: str(tmp_path))
+
+        conn = cache_mod._get_connection()
+        conn.close()
+
+        assert len(calls) == 2
+
+    def test_cache_get_connection_failure_returns_none(self, monkeypatch):
+        import finasys.sources.cache as cache_mod
+
+        monkeypatch.setattr(cache_mod, "_get_connection", lambda: (_ for _ in ()).throw(RuntimeError("no db")))
+
+        assert cache_mod.cache_get("FAIL") is None
+
+    def test_cache_put_connection_failure_is_ignored(self, cache_df, monkeypatch):
+        import finasys.sources.cache as cache_mod
+
+        monkeypatch.setattr(cache_mod, "_get_connection", lambda: (_ for _ in ()).throw(RuntimeError("no db")))
+
+        cache_mod.cache_put(cache_df, "FAIL")
+
+    def test_cache_clear_connection_failure_is_ignored(self, monkeypatch):
+        import finasys.sources.cache as cache_mod
+
+        monkeypatch.setattr(cache_mod, "_get_connection", lambda: (_ for _ in ()).throw(RuntimeError("no db")))
+
+        cache_mod.cache_clear("FAIL")
+
+    def test_cache_get_query_failure_returns_none(self, monkeypatch):
+        import finasys.sources.cache as cache_mod
+
+        class BadConnection:
+            def execute(self, *args, **kwargs):
+                raise RuntimeError("query failed")
+
+            def close(self):
+                self.closed = True
+
+        monkeypatch.setattr(cache_mod, "_get_connection", lambda: BadConnection())
+
+        assert cache_mod.cache_get("FAIL") is None
+
+    def test_cache_put_insert_failure_is_ignored(self, cache_df, monkeypatch):
+        import finasys.sources.cache as cache_mod
+
+        class BadConnection:
+            def execute(self, *args, **kwargs):
+                raise RuntimeError("insert failed")
+
+            def close(self):
+                self.closed = True
+
+        monkeypatch.setattr(cache_mod, "_get_connection", lambda: BadConnection())
+
+        cache_mod.cache_put(cache_df, "FAIL")

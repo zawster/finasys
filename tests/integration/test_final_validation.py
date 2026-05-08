@@ -1069,7 +1069,7 @@ class TestTools:
 
         t = tools()
         assert isinstance(t, list)
-        assert len(t) == 4
+        assert len(t) == 9
 
     def test_openai_format(self):
         from finasys.agents import tools
@@ -1093,7 +1093,17 @@ class TestTools:
         from finasys.agents import tools
 
         names = {t["function"]["name"] for t in tools()}
-        assert names == {"lookup_price", "get_technical_indicators", "compare_symbols", "get_summary"}
+        assert names == {
+            "lookup_price",
+            "get_technical_indicators",
+            "compare_symbols",
+            "get_summary",
+            "assess_risk",
+            "portfolio_analysis",
+            "screen_stocks",
+            "data_quality_check",
+            "profile_stock",
+        }
 
     def test_each_tool_has_required_params(self):
         from finasys.agents import tools
@@ -1249,7 +1259,7 @@ class TestVersion:
         import finasys as fs
 
         assert hasattr(fs, "__version__")
-        assert fs.__version__ == "0.1.3"
+        assert fs.__version__ == "0.1.4"
 
 
 # ============================================================
@@ -1275,7 +1285,7 @@ class TestEndToEnd:
 
         # Step 4: Get tools
         tools = fs.agents.tools(symbols=["TEST"])
-        assert len(tools) == 4
+        assert len(tools) == 9
 
         # Step 5: Get context
         ctx = fs.agents.context(df, "What is the trend?")
