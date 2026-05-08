@@ -5,7 +5,7 @@ from __future__ import annotations
 import polars as pl
 
 
-def summarize(df: pl.DataFrame, max_tokens: int | None = None) -> str:
+def summarize(df: pl.DataFrame, max_tokens: int | None = None, include_profile: bool = False) -> str:
     """Generate a structured text summary of a financial DataFrame.
 
     Produces a concise summary suitable for feeding into an LLM as context.
@@ -15,6 +15,7 @@ def summarize(df: pl.DataFrame, max_tokens: int | None = None) -> str:
         df: DataFrame with standard finasys columns (timestamp, close, etc.).
         max_tokens: Approximate token budget. If set, truncates the summary
                     to fit. Rough estimate: 1 token ~ 4 characters.
+        include_profile: Include Smart Profiler quality and distribution output.
 
     Returns:
         A human-readable text summary.
@@ -108,6 +109,14 @@ def summarize(df: pl.DataFrame, max_tokens: int | None = None) -> str:
         if avg_vol and avg_vol > 0:
             vol_ratio = last_vol / avg_vol
             parts.append(f"Volume: {last_vol:,.0f} ({vol_ratio:.1f}x avg)")
+
+    if include_profile:
+        try:
+            from finasys.profiler import profile_summary
+
+            parts.append(profile_summary(df))
+        except Exception:
+            pass
 
     summary = "\n".join(parts)
 
