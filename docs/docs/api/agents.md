@@ -4,7 +4,7 @@ Tools and utilities for integrating financial data with AI agents and LLMs.
 
 ---
 
-## `fs.agents.summarize(df, max_tokens=None)`
+## `fs.agents.summarize(df, max_tokens=None, include_profile=False)`
 
 Generate an LLM-ready text summary of a financial DataFrame.
 
@@ -34,6 +34,7 @@ Volume: 87,981,315 (0.7x avg)
 |-----------|------|---------|-------------|
 | `df` | `pl.DataFrame` | required | DataFrame with finasys standard columns |
 | `max_tokens` | `int` | `None` | Approximate token budget (1 token ~ 4 chars) |
+| `include_profile` | `bool` | `False` | Include Smart Profiler quality and distribution output |
 
 ---
 
@@ -48,7 +49,7 @@ tools = fs.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
 # response = client.chat.completions.create(tools=tools, ...)
 ```
 
-**Returns** a list of 4 tool definitions:
+**Returns** a list of tool definitions:
 
 | Tool Name | Description |
 |-----------|-------------|
@@ -56,6 +57,11 @@ tools = fs.agents.tools(symbols=["AAPL", "GOOGL", "MSFT"])
 | `get_technical_indicators` | Compute RSI, MACD, Bollinger, etc. |
 | `compare_symbols` | Compare performance across symbols |
 | `get_summary` | Get comprehensive analysis summary |
+| `assess_risk` | Compute Sharpe, Sortino, VaR, CVaR, and drawdown |
+| `portfolio_analysis` | Analyze portfolio returns, volatility, and correlations |
+| `screen_stocks` | Filter symbols by Sharpe, drawdown, and RSI criteria |
+| `data_quality_check` | Return a data completeness and quality report |
+| `profile_stock` | Return Smart Profiler text output |
 
 ---
 
