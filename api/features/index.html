@@ -1,0 +1,2313 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Financial data processing, feature engineering and AI agent toolkit for Python">
+      
+      
+      
+        <link rel="canonical" href="https://zawster.github.io/finasys/api/features/">
+      
+      
+        <link rel="prev" href="../sources/">
+      
+      
+        <link rel="next" href="../stats/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Features - finasys</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#features-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="finasys" class="md-header__button md-logo" aria-label="finasys" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            finasys
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Features
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/zawster/finasys" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zawster/finasys
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="finasys" class="md-nav__button md-logo" aria-label="finasys" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    finasys
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/zawster/finasys" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zawster/finasys
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technical-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technical Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturessmadf-period20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.sma(df, period=20, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesemadf-period20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.ema(df, period=20, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrsidf-period14-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rsi(df, period=14, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmacddf-fast12-slow26-signal9-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.macd(df, fast=12, slow=26, signal=9, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesbollingerdf-period20-std20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.bollinger(df, period=20, std=2.0, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesatrdf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.atr(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvwapdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.vwap(df)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesobvdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.obv(df)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesstochasticdf-k_period14-d_period3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.stochastic(df, k_period=14, d_period=3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesadxdf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.adx(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesccidf-period20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cci(df, period=20)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureswilliams_rdf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.williams_r(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmfidf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.mfi(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrocdf-period10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.roc(df, period=10, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmomentumdf-period10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.momentum(df, period=10, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-label-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target / Label Engineering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Target / Label Engineering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesforward_returnsdf-periods1-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.forward_returns(df, periods=1, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesclassify_returnsdf-period5-thresholds-001-001-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.classify_returns(df, period=5, thresholds=(-0.01, 0.01), column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturestriple_barrier_labelsdf-profit_take002-stop_loss002-max_holding10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.triple_barrier_labels(df, profit_take=0.02, stop_loss=0.02, max_holding=10, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvolatility_adjusted_labelsdf-period5-vol_window21-vol_multiplier10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.volatility_adjusted_labels(df, period=5, vol_window=21, vol_multiplier=1.0, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distribution-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribution Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distribution Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_skewnessdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_skewness(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_kurtosisdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_kurtosis(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturestail_ratiodf-window63-percentile005-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.tail_ratio(df, window=63, percentile=0.05, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_jarque_beradf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_jarque_bera(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureszscore_returnsdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.zscore_returns(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#market-regime-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Regime Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Market Regime Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvolatility_regimedf-fast_window21-slow_window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.volatility_regime(df, fast_window=21, slow_window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturestrend_strengthdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.trend_strength(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmarket_statedf-vol_window21-trend_window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.market_state(df, vol_window=21, trend_window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesbreakout_detectiondf-window20-n_std20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.breakout_detection(df, window=20, n_std=2.0, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Returns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesreturnsdf-periods1-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.returns(df, periods=1, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureslog_returnsdf-periods1-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.log_returns(df, periods=1, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescumulative_returnsdf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cumulative_returns(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesdrawdowndf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.drawdown(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rolling-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rolling Statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rolling Statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_statsdf-windows21-columnclose-statsnone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_stats(df, windows=21, column="close", stats=None)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lag-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lag Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lag Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureslagsdf-columnsclose-lags1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.lags(df, columns="close", lags=1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvalidate_no_lookaheaddf_full-df_partial-feature_columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.validate_no_lookahead(df_full, df_partial, feature_columns)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calendar-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calendar Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescalendar_featuresdf-columntimestamp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.calendar_features(df, column="timestamp")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-sectional-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Sectional Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-Sectional Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescross_rankdf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cross_rank(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescross_percentiledf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cross_percentile(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescross_zscoredf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cross_zscore(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convenience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convenience
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Convenience">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesadd_alldf-indicatorstrue-returns_true-lags_none-rolling_windowsnone-calendarfalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.add_all(df, indicators=True, returns_=True, lags_=None, rolling_windows=None, calendar=False)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#featureset-composable-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FeatureSet (Composable Pipeline)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portfolio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/feature_pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/ml_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ML Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/agent_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technical-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technical Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturessmadf-period20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.sma(df, period=20, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesemadf-period20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.ema(df, period=20, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrsidf-period14-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rsi(df, period=14, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmacddf-fast12-slow26-signal9-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.macd(df, fast=12, slow=26, signal=9, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesbollingerdf-period20-std20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.bollinger(df, period=20, std=2.0, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesatrdf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.atr(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvwapdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.vwap(df)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesobvdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.obv(df)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesstochasticdf-k_period14-d_period3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.stochastic(df, k_period=14, d_period=3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesadxdf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.adx(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesccidf-period20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cci(df, period=20)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureswilliams_rdf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.williams_r(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmfidf-period14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.mfi(df, period=14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrocdf-period10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.roc(df, period=10, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmomentumdf-period10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.momentum(df, period=10, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-label-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target / Label Engineering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Target / Label Engineering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesforward_returnsdf-periods1-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.forward_returns(df, periods=1, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesclassify_returnsdf-period5-thresholds-001-001-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.classify_returns(df, period=5, thresholds=(-0.01, 0.01), column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturestriple_barrier_labelsdf-profit_take002-stop_loss002-max_holding10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.triple_barrier_labels(df, profit_take=0.02, stop_loss=0.02, max_holding=10, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvolatility_adjusted_labelsdf-period5-vol_window21-vol_multiplier10-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.volatility_adjusted_labels(df, period=5, vol_window=21, vol_multiplier=1.0, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distribution-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribution Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distribution Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_skewnessdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_skewness(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_kurtosisdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_kurtosis(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturestail_ratiodf-window63-percentile005-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.tail_ratio(df, window=63, percentile=0.05, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_jarque_beradf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_jarque_bera(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureszscore_returnsdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.zscore_returns(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#market-regime-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Regime Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Market Regime Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvolatility_regimedf-fast_window21-slow_window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.volatility_regime(df, fast_window=21, slow_window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturestrend_strengthdf-window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.trend_strength(df, window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesmarket_statedf-vol_window21-trend_window63-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.market_state(df, vol_window=21, trend_window=63, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesbreakout_detectiondf-window20-n_std20-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.breakout_detection(df, window=20, n_std=2.0, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Returns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesreturnsdf-periods1-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.returns(df, periods=1, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureslog_returnsdf-periods1-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.log_returns(df, periods=1, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescumulative_returnsdf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cumulative_returns(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesdrawdowndf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.drawdown(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rolling-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rolling Statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rolling Statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesrolling_statsdf-windows21-columnclose-statsnone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.rolling_stats(df, windows=21, column="close", stats=None)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lag-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lag Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lag Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeatureslagsdf-columnsclose-lags1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.lags(df, columns="close", lags=1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesvalidate_no_lookaheaddf_full-df_partial-feature_columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.validate_no_lookahead(df_full, df_partial, feature_columns)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calendar-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calendar Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescalendar_featuresdf-columntimestamp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.calendar_features(df, column="timestamp")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-sectional-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Sectional Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-Sectional Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescross_rankdf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cross_rank(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescross_percentiledf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cross_percentile(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturescross_zscoredf-columnclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.cross_zscore(df, column="close")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convenience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convenience
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Convenience">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fsfeaturesadd_alldf-indicatorstrue-returns_true-lags_none-rolling_windowsnone-calendarfalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fs.features.add_all(df, indicators=True, returns_=True, lags_=None, rolling_windows=None, calendar=False)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#featureset-composable-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FeatureSet (Composable Pipeline)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="features-api">Features API<a class="headerlink" href="#features-api" title="Permanent link">&para;</a></h1>
+<p>All feature functions take a Polars DataFrame and return a new DataFrame with columns appended. They never mutate the input.</p>
+<p>All functions are <strong>symbol-aware</strong>: in multi-symbol DataFrames, calculations are done within each symbol (no cross-contamination).</p>
+<hr />
+<h2 id="technical-indicators">Technical Indicators<a class="headerlink" href="#technical-indicators" title="Permanent link">&para;</a></h2>
+<h3 id="fsfeaturessmadf-period20-columnclose"><code>fs.features.sma(df, period=20, column="close")</code><a class="headerlink" href="#fsfeaturessmadf-period20-columnclose" title="Permanent link">&para;</a></h3>
+<p>Simple Moving Average.</p>
+<h3 id="fsfeaturesemadf-period20-columnclose"><code>fs.features.ema(df, period=20, column="close")</code><a class="headerlink" href="#fsfeaturesemadf-period20-columnclose" title="Permanent link">&para;</a></h3>
+<p>Exponential Moving Average.</p>
+<h3 id="fsfeaturesrsidf-period14-columnclose"><code>fs.features.rsi(df, period=14, column="close")</code><a class="headerlink" href="#fsfeaturesrsidf-period14-columnclose" title="Permanent link">&para;</a></h3>
+<p>Relative Strength Index. Values: 0-100. Above 70 = overbought, below 30 = oversold.</p>
+<h3 id="fsfeaturesmacddf-fast12-slow26-signal9-columnclose"><code>fs.features.macd(df, fast=12, slow=26, signal=9, column="close")</code><a class="headerlink" href="#fsfeaturesmacddf-fast12-slow26-signal9-columnclose" title="Permanent link">&para;</a></h3>
+<p>Moving Average Convergence Divergence. Adds columns: <code>macd_line</code>, <code>macd_signal</code>, <code>macd_hist</code>.</p>
+<h3 id="fsfeaturesbollingerdf-period20-std20-columnclose"><code>fs.features.bollinger(df, period=20, std=2.0, column="close")</code><a class="headerlink" href="#fsfeaturesbollingerdf-period20-std20-columnclose" title="Permanent link">&para;</a></h3>
+<p>Bollinger Bands. Adds columns: <code>bb_middle</code>, <code>bb_upper</code>, <code>bb_lower</code>.</p>
+<h3 id="fsfeaturesatrdf-period14"><code>fs.features.atr(df, period=14)</code><a class="headerlink" href="#fsfeaturesatrdf-period14" title="Permanent link">&para;</a></h3>
+<p>Average True Range. Measures volatility. Requires <code>high</code>, <code>low</code>, <code>close</code> columns.</p>
+<h3 id="fsfeaturesvwapdf"><code>fs.features.vwap(df)</code><a class="headerlink" href="#fsfeaturesvwapdf" title="Permanent link">&para;</a></h3>
+<p>Volume Weighted Average Price. Requires <code>high</code>, <code>low</code>, <code>close</code>, <code>volume</code> columns.</p>
+<h3 id="fsfeaturesobvdf"><code>fs.features.obv(df)</code><a class="headerlink" href="#fsfeaturesobvdf" title="Permanent link">&para;</a></h3>
+<p>On-Balance Volume. Requires <code>close</code> and <code>volume</code> columns.</p>
+<h3 id="fsfeaturesstochasticdf-k_period14-d_period3"><code>fs.features.stochastic(df, k_period=14, d_period=3)</code><a class="headerlink" href="#fsfeaturesstochasticdf-k_period14-d_period3" title="Permanent link">&para;</a></h3>
+<p>Stochastic Oscillator. Adds columns: <code>stoch_k</code>, <code>stoch_d</code>. Values: 0-100.</p>
+<h3 id="fsfeaturesadxdf-period14"><code>fs.features.adx(df, period=14)</code><a class="headerlink" href="#fsfeaturesadxdf-period14" title="Permanent link">&para;</a></h3>
+<p>Average Directional Index. Adds columns: <code>adx_14</code>, <code>plus_di</code>, <code>minus_di</code>.</p>
+<h3 id="fsfeaturesccidf-period20"><code>fs.features.cci(df, period=20)</code><a class="headerlink" href="#fsfeaturesccidf-period20" title="Permanent link">&para;</a></h3>
+<p>Commodity Channel Index.</p>
+<h3 id="fsfeatureswilliams_rdf-period14"><code>fs.features.williams_r(df, period=14)</code><a class="headerlink" href="#fsfeatureswilliams_rdf-period14" title="Permanent link">&para;</a></h3>
+<p>Williams %R. Values: -100 to 0.</p>
+<h3 id="fsfeaturesmfidf-period14"><code>fs.features.mfi(df, period=14)</code><a class="headerlink" href="#fsfeaturesmfidf-period14" title="Permanent link">&para;</a></h3>
+<p>Money Flow Index. Volume-weighted RSI.</p>
+<h3 id="fsfeaturesrocdf-period10-columnclose"><code>fs.features.roc(df, period=10, column="close")</code><a class="headerlink" href="#fsfeaturesrocdf-period10-columnclose" title="Permanent link">&para;</a></h3>
+<p>Rate of Change. Percentage change from <code>period</code> bars ago.</p>
+<h3 id="fsfeaturesmomentumdf-period10-columnclose"><code>fs.features.momentum(df, period=10, column="close")</code><a class="headerlink" href="#fsfeaturesmomentumdf-period10-columnclose" title="Permanent link">&para;</a></h3>
+<p>Momentum. Price difference from <code>period</code> bars ago.</p>
+<hr />
+<h2 id="target-label-engineering">Target / Label Engineering<a class="headerlink" href="#target-label-engineering" title="Permanent link">&para;</a></h2>
+<p>Functions for creating supervised ML targets. These use <strong>forward-looking data</strong> and must be dropped before inference.</p>
+<h3 id="fsfeaturesforward_returnsdf-periods1-columnclose"><code>fs.features.forward_returns(df, periods=1, column="close")</code><a class="headerlink" href="#fsfeaturesforward_returnsdf-periods1-columnclose" title="Permanent link">&para;</a></h3>
+<p>Forward-looking returns via negative shift. The most common ML target in financial modeling.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">forward_returns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">])</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Adds: fwd_return_1d, fwd_return_5d, fwd_return_21d</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Last N rows are null (no future data available)</span>
+</code></pre></div>
+<h3 id="fsfeaturesclassify_returnsdf-period5-thresholds-001-001-columnclose"><code>fs.features.classify_returns(df, period=5, thresholds=(-0.01, 0.01), column="close")</code><a class="headerlink" href="#fsfeaturesclassify_returnsdf-period5-thresholds-001-001-columnclose" title="Permanent link">&para;</a></h3>
+<p>Classify forward returns into ternary labels for classification models.</p>
+<ul>
+<li><code>-1</code>: down (forward return &lt; lower threshold)</li>
+<li><code>0</code>: flat (between thresholds)</li>
+<li><code>1</code>: up (forward return &gt; upper threshold)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">classify_returns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Adds: label_5d (values: -1, 0, 1)</span>
+</code></pre></div>
+<h3 id="fsfeaturestriple_barrier_labelsdf-profit_take002-stop_loss002-max_holding10-columnclose"><code>fs.features.triple_barrier_labels(df, profit_take=0.02, stop_loss=0.02, max_holding=10, column="close")</code><a class="headerlink" href="#fsfeaturestriple_barrier_labelsdf-profit_take002-stop_loss002-max_holding10-columnclose" title="Permanent link">&para;</a></h3>
+<p>Lopez de Prado triple-barrier labeling method -- the gold standard for financial ML labeling from <em>Advances in Financial Machine Learning</em>.</p>
+<p>Three barriers race:</p>
+<ul>
+<li><strong>Upper</strong>: price rises by <code>profit_take</code> fraction (label = 1)</li>
+<li><strong>Lower</strong>: price falls by <code>stop_loss</code> fraction (label = -1)</li>
+<li><strong>Vertical</strong>: <code>max_holding</code> bars elapse (label = sign of return)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">triple_barrier_labels</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">profit_take</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">stop_loss</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">max_holding</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Adds: tb_label (1/-1/0), tb_duration (bars held), tb_return (exit return)</span>
+</code></pre></div>
+<h3 id="fsfeaturesvolatility_adjusted_labelsdf-period5-vol_window21-vol_multiplier10-columnclose"><code>fs.features.volatility_adjusted_labels(df, period=5, vol_window=21, vol_multiplier=1.0, column="close")</code><a class="headerlink" href="#fsfeaturesvolatility_adjusted_labelsdf-period5-vol_window21-vol_multiplier10-columnclose" title="Permanent link">&para;</a></h3>
+<p>Classify forward returns relative to rolling volatility. Thresholds adapt to the current regime -- more robust than fixed thresholds.</p>
+<ul>
+<li><code>up</code>: forward return &gt; <code>vol_multiplier * rolling_std</code></li>
+<li><code>down</code>: forward return &lt; <code>-vol_multiplier * rolling_std</code></li>
+<li><code>flat</code>: otherwise</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">volatility_adjusted_labels</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">vol_multiplier</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Adds: vol_label_5d (values: -1, 0, 1)</span>
+</code></pre></div>
+<hr />
+<h2 id="distribution-features">Distribution Features<a class="headerlink" href="#distribution-features" title="Permanent link">&para;</a></h2>
+<p>Rolling distribution metrics that capture fat tails, non-normality, and tail risk dynamics. Powerful ML features for regime detection and risk prediction.</p>
+<h3 id="fsfeaturesrolling_skewnessdf-window63-columnclose"><code>fs.features.rolling_skewness(df, window=63, column="close")</code><a class="headerlink" href="#fsfeaturesrolling_skewnessdf-window63-columnclose" title="Permanent link">&para;</a></h3>
+<p>Rolling skewness of returns. Negative skew = heavier left tail (common in equities).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">rolling_skewness</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">63</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># Adds: rolling_skew_63</span>
+</code></pre></div>
+<h3 id="fsfeaturesrolling_kurtosisdf-window63-columnclose"><code>fs.features.rolling_kurtosis(df, window=63, column="close")</code><a class="headerlink" href="#fsfeaturesrolling_kurtosisdf-window63-columnclose" title="Permanent link">&para;</a></h3>
+<p>Rolling excess kurtosis of returns. Values &gt; 0 indicate fat tails (leptokurtic). Financial returns typically have positive excess kurtosis.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">rolling_kurtosis</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">63</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Adds: rolling_kurtosis_63</span>
+</code></pre></div>
+<h3 id="fsfeaturestail_ratiodf-window63-percentile005-columnclose"><code>fs.features.tail_ratio(df, window=63, percentile=0.05, column="close")</code><a class="headerlink" href="#fsfeaturestail_ratiodf-window63-percentile005-columnclose" title="Permanent link">&para;</a></h3>
+<p>Ratio of the right tail (95th percentile) to the absolute value of the left tail (5th percentile). Values &gt; 1 indicate positive skew.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">tail_ratio</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">63</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># Adds: tail_ratio_63</span>
+</code></pre></div>
+<h3 id="fsfeaturesrolling_jarque_beradf-window63-columnclose"><code>fs.features.rolling_jarque_bera(df, window=63, column="close")</code><a class="headerlink" href="#fsfeaturesrolling_jarque_beradf-window63-columnclose" title="Permanent link">&para;</a></h3>
+<p>Rolling Jarque-Bera test statistic. High values indicate non-normal returns. Computed as <code>JB = n/6 * (S^2 + K^2/4)</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">rolling_jarque_bera</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">63</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># Adds: rolling_jb_63</span>
+</code></pre></div>
+<h3 id="fsfeatureszscore_returnsdf-window63-columnclose"><code>fs.features.zscore_returns(df, window=63, column="close")</code><a class="headerlink" href="#fsfeatureszscore_returnsdf-window63-columnclose" title="Permanent link">&para;</a></h3>
+<p>Z-score of the current return relative to its rolling distribution. Detects unusually large or small moves.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">zscore_returns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">63</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Adds: zscore_returns_63</span>
+</code></pre></div>
+<hr />
+<h2 id="market-regime-features">Market Regime Features<a class="headerlink" href="#market-regime-features" title="Permanent link">&para;</a></h2>
+<h3 id="fsfeaturesvolatility_regimedf-fast_window21-slow_window63-columnclose"><code>fs.features.volatility_regime(df, fast_window=21, slow_window=63, column="close")</code><a class="headerlink" href="#fsfeaturesvolatility_regimedf-fast_window21-slow_window63-columnclose" title="Permanent link">&para;</a></h3>
+<p>Adds <code>vol_ratio</code> and <code>vol_regime</code>. <code>vol_regime</code> is <code>1</code> when fast volatility is above slow volatility, otherwise <code>0</code>.</p>
+<h3 id="fsfeaturestrend_strengthdf-window63-columnclose"><code>fs.features.trend_strength(df, window=63, column="close")</code><a class="headerlink" href="#fsfeaturestrend_strengthdf-window63-columnclose" title="Permanent link">&para;</a></h3>
+<p>Adds <code>hurst_{window}</code> and <code>trend_direction</code>. <code>trend_direction</code> is <code>1</code>, <code>0</code>, or <code>-1</code>.</p>
+<h3 id="fsfeaturesmarket_statedf-vol_window21-trend_window63-columnclose"><code>fs.features.market_state(df, vol_window=21, trend_window=63, column="close")</code><a class="headerlink" href="#fsfeaturesmarket_statedf-vol_window21-trend_window63-columnclose" title="Permanent link">&para;</a></h3>
+<p>Combines volatility and trend into <code>market_state</code>, such as <code>trending_high_vol</code> or <code>ranging_low_vol</code>.</p>
+<h3 id="fsfeaturesbreakout_detectiondf-window20-n_std20-columnclose"><code>fs.features.breakout_detection(df, window=20, n_std=2.0, column="close")</code><a class="headerlink" href="#fsfeaturesbreakout_detectiondf-window20-n_std20-columnclose" title="Permanent link">&para;</a></h3>
+<p>Adds <code>breakout_{window}</code> and <code>breakout_strength_{window}</code>.</p>
+<hr />
+<h2 id="returns">Returns<a class="headerlink" href="#returns" title="Permanent link">&para;</a></h2>
+<h3 id="fsfeaturesreturnsdf-periods1-columnclose"><code>fs.features.returns(df, periods=1, column="close")</code><a class="headerlink" href="#fsfeaturesreturnsdf-periods1-columnclose" title="Permanent link">&para;</a></h3>
+<p>Simple percentage returns. <code>periods</code> can be <code>int</code> or <code>list[int]</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">returns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">])</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># Adds: returns_1d, returns_5d, returns_21d</span>
+</code></pre></div>
+<h3 id="fsfeatureslog_returnsdf-periods1-columnclose"><code>fs.features.log_returns(df, periods=1, column="close")</code><a class="headerlink" href="#fsfeatureslog_returnsdf-periods1-columnclose" title="Permanent link">&para;</a></h3>
+<p>Log returns (additive over time).</p>
+<h3 id="fsfeaturescumulative_returnsdf-columnclose"><code>fs.features.cumulative_returns(df, column="close")</code><a class="headerlink" href="#fsfeaturescumulative_returnsdf-columnclose" title="Permanent link">&para;</a></h3>
+<p>Cumulative returns from the first data point.</p>
+<h3 id="fsfeaturesdrawdowndf-columnclose"><code>fs.features.drawdown(df, column="close")</code><a class="headerlink" href="#fsfeaturesdrawdowndf-columnclose" title="Permanent link">&para;</a></h3>
+<p>Drawdown from running maximum. Adds: <code>drawdown</code>, <code>max_drawdown</code>.</p>
+<hr />
+<h2 id="rolling-statistics">Rolling Statistics<a class="headerlink" href="#rolling-statistics" title="Permanent link">&para;</a></h2>
+<h3 id="fsfeaturesrolling_statsdf-windows21-columnclose-statsnone"><code>fs.features.rolling_stats(df, windows=21, column="close", stats=None)</code><a class="headerlink" href="#fsfeaturesrolling_statsdf-windows21-columnclose-statsnone" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">rolling_stats</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">windows</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> <span class="n">stats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;std&quot;</span><span class="p">,</span> <span class="s2">&quot;zscore&quot;</span><span class="p">])</span>
+</code></pre></div>
+<p>Available stats: <code>"mean"</code>, <code>"std"</code>, <code>"min"</code>, <code>"max"</code>, <code>"skew"</code>, <code>"zscore"</code></p>
+<hr />
+<h2 id="lag-features">Lag Features<a class="headerlink" href="#lag-features" title="Permanent link">&para;</a></h2>
+<h3 id="fsfeatureslagsdf-columnsclose-lags1"><code>fs.features.lags(df, columns="close", lags=1)</code><a class="headerlink" href="#fsfeatureslagsdf-columnsclose-lags1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">lags</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="s2">&quot;volume&quot;</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># Adds: close_lag_1, close_lag_3, close_lag_5, volume_lag_1, ...</span>
+</code></pre></div>
+<p>Only positive lags are allowed (look-ahead bias protection).</p>
+<h3 id="fsfeaturesvalidate_no_lookaheaddf_full-df_partial-feature_columns"><code>fs.features.validate_no_lookahead(df_full, df_partial, feature_columns)</code><a class="headerlink" href="#fsfeaturesvalidate_no_lookaheaddf_full-df_partial-feature_columns" title="Permanent link">&para;</a></h3>
+<p>Validates that features don't use future data.</p>
+<hr />
+<h2 id="calendar-features">Calendar Features<a class="headerlink" href="#calendar-features" title="Permanent link">&para;</a></h2>
+<h3 id="fsfeaturescalendar_featuresdf-columntimestamp"><code>fs.features.calendar_features(df, column="timestamp")</code><a class="headerlink" href="#fsfeaturescalendar_featuresdf-columntimestamp" title="Permanent link">&para;</a></h3>
+<p>Adds: <code>day_of_week</code>, <code>month</code>, <code>quarter</code>, <code>week_of_year</code>, <code>is_month_start</code>, <code>is_month_end</code>, <code>is_quarter_end</code>.</p>
+<hr />
+<h2 id="cross-sectional-features">Cross-Sectional Features<a class="headerlink" href="#cross-sectional-features" title="Permanent link">&para;</a></h2>
+<p>For multi-symbol DataFrames. Ranks/scores across symbols at each timestamp.</p>
+<h3 id="fsfeaturescross_rankdf-columnclose"><code>fs.features.cross_rank(df, column="close")</code><a class="headerlink" href="#fsfeaturescross_rankdf-columnclose" title="Permanent link">&para;</a></h3>
+<h3 id="fsfeaturescross_percentiledf-columnclose"><code>fs.features.cross_percentile(df, column="close")</code><a class="headerlink" href="#fsfeaturescross_percentiledf-columnclose" title="Permanent link">&para;</a></h3>
+<h3 id="fsfeaturescross_zscoredf-columnclose"><code>fs.features.cross_zscore(df, column="close")</code><a class="headerlink" href="#fsfeaturescross_zscoredf-columnclose" title="Permanent link">&para;</a></h3>
+<hr />
+<h2 id="convenience">Convenience<a class="headerlink" href="#convenience" title="Permanent link">&para;</a></h2>
+<h3 id="fsfeaturesadd_alldf-indicatorstrue-returns_true-lags_none-rolling_windowsnone-calendarfalse"><code>fs.features.add_all(df, indicators=True, returns_=True, lags_=None, rolling_windows=None, calendar=False)</code><a class="headerlink" href="#fsfeaturesadd_alldf-indicatorstrue-returns_true-lags_none-rolling_windowsnone-calendarfalse" title="Permanent link">&para;</a></h3>
+<p>Add a standard set of features in one call.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">add_all</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">lags_</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">rolling_windows</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> <span class="n">calendar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="featureset-composable-pipeline">FeatureSet (Composable Pipeline)<a class="headerlink" href="#featureset-composable-pipeline" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">fs</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">FeatureSet</span><span class="p">([</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mi">14</span><span class="p">),</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">MACD</span><span class="p">(),</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">BollingerBands</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">ATR</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mi">14</span><span class="p">),</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">Returns</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">]),</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">LogReturns</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">RollingStats</span><span class="p">(</span><span class="n">windows</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> <span class="n">stats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;std&quot;</span><span class="p">]),</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">Lags</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;close&quot;</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">Calendar</span><span class="p">(),</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="p">])</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="n">df</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="c1"># Save / load for reproducibility</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="n">fs</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;pipeline.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="n">fs2</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">FeatureSet</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;pipeline.json&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Available step classes:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Indicators</strong></td>
+<td><code>RSI</code>, <code>MACD</code>, <code>BollingerBands</code>, <code>ATR</code></td>
+</tr>
+<tr>
+<td><strong>Returns</strong></td>
+<td><code>Returns</code>, <code>LogReturns</code></td>
+</tr>
+<tr>
+<td><strong>Features</strong></td>
+<td><code>RollingStats</code>, <code>Lags</code>, <code>Calendar</code></td>
+</tr>
+<tr>
+<td><strong>Targets</strong></td>
+<td><code>ForwardReturns</code>, <code>ClassifyReturns</code>, <code>TripleBarrier</code>, <code>VolAdjustedLabels</code></td>
+</tr>
+<tr>
+<td><strong>Distributions</strong></td>
+<td><code>RollingSkewness</code>, <code>RollingKurtosis</code>, <code>TailRatio</code>, <code>ZscoreReturns</code></td>
+</tr>
+<tr>
+<td><strong>Regime</strong></td>
+<td><code>VolatilityRegime</code>, <code>TrendStrength</code>, <code>MarketState</code>, <code>BreakoutDetection</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># ML pipeline with targets and distribution features</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">pipeline</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">FeatureSet</span><span class="p">([</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">RSI</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mi">14</span><span class="p">),</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">Returns</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">21</span><span class="p">]),</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">RollingKurtosis</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">ZscoreReturns</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">ForwardReturns</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">ClassifyReturns</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>    <span class="n">fs</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">TripleBarrier</span><span class="p">(</span><span class="n">profit_take</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">stop_loss</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">max_holding</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="p">])</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">pipeline</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;ml_pipeline.json&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
