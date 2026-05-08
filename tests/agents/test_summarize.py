@@ -25,7 +25,33 @@ def test_summarize_max_tokens(ohlcv_df):
     assert len(result) <= 84  # 80 + "..."
 
 
+def test_summarize_max_tokens_exact_budget(ohlcv_df):
+    result = summarize(ohlcv_df, max_tokens=10)
+
+    assert len(result) <= 44
+
+
 def test_summarize_includes_returns(ohlcv_df):
     result = summarize(ohlcv_df)
     # Should include at least daily return info
     assert "%" in result
+
+
+def test_summarize_include_profile(ohlcv_df):
+    result = summarize(ohlcv_df, include_profile=True)
+
+    assert "DATA PROFILE" in result
+
+
+def test_summarize_include_profile_swallows_profile_errors(ohlcv_df, monkeypatch):
+    import finasys.profiler
+
+    def _raise(*args, **kwargs):
+        raise RuntimeError("profile unavailable")
+
+    monkeypatch.setattr(finasys.profiler, "profile_summary", _raise)
+
+    result = summarize(ohlcv_df, include_profile=True)
+
+    assert "DATA PROFILE" not in result
+    assert "$" in result

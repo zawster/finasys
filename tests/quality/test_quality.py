@@ -19,6 +19,13 @@ def test_detect_gaps_single_symbol():
     assert detect_gaps(df) == ["2024-01-02"]
 
 
+def test_detect_gaps_no_timestamp_or_short_frame():
+    from finasys.quality import detect_gaps
+
+    assert detect_gaps(pl.DataFrame({"close": [100.0, 101.0]})) == []
+    assert detect_gaps(pl.DataFrame({"timestamp": [date(2024, 1, 1)], "close": [100.0]})) == []
+
+
 def test_detect_gaps_multi_symbol(multi_symbol_df):
     from finasys.quality import detect_gaps
 
@@ -54,6 +61,16 @@ def test_flag_outliers_iqr(ohlcv_df):
     assert "close_outlier" in result.columns
 
 
+def test_flag_outliers_validation_and_no_columns():
+    from finasys.quality import flag_outliers
+
+    with pytest.raises(ValueError, match="method"):
+        flag_outliers(pl.DataFrame({"close": [1.0, 2.0]}), method="mad")
+
+    df = pl.DataFrame({"timestamp": [date(2024, 1, 1)]})
+    assert flag_outliers(df).equals(df)
+
+
 def test_detect_splits(ohlcv_df):
     from finasys.quality import detect_splits
 
@@ -66,6 +83,13 @@ def test_detect_splits(ohlcv_df):
     assert result["suspected_split"].sum() >= 1
 
 
+def test_detect_splits_missing_column(ohlcv_df):
+    from finasys.quality import detect_splits
+
+    with pytest.raises(ValueError, match="not found"):
+        detect_splits(ohlcv_df, column="adjusted_close")
+
+
 def test_completeness_report(ohlcv_df):
     from finasys.quality import completeness_report
 
@@ -74,3 +98,13 @@ def test_completeness_report(ohlcv_df):
     assert result["rows"] == ohlcv_df.height
     assert "null_counts" in result
     assert "date_gap_count" in result
+
+
+def test_completeness_report_without_optional_columns():
+    from finasys.quality import completeness_report
+
+    result = completeness_report(pl.DataFrame({"name": ["a", "b"]}))
+
+    assert result["zero_volume_days"] == 0
+    assert result["suspected_split_count"] == 0
+    assert result["outlier_counts"] == {}

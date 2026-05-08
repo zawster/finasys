@@ -33,6 +33,18 @@ class TestExecuteTool:
         )
         assert isinstance(result, str)
 
+    def test_get_technical_indicators_ignores_unknown_indicator(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool(
+            "get_technical_indicators",
+            {"symbol": "TEST", "indicators": ["rsi", "not_a_real_indicator"]},
+        )
+        assert isinstance(result, str)
+
     def test_compare_symbols(self, multi_symbol_df, monkeypatch):
         import finasys as fs
 
@@ -70,6 +82,18 @@ class TestExecuteTool:
         result = execute_tool("portfolio_analysis", {"symbols": ["AAPL", "GOOGL"]})
         assert "Portfolio" in result
 
+    def test_portfolio_analysis_with_weights(self, multi_symbol_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: multi_symbol_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool(
+            "portfolio_analysis",
+            {"symbols": ["AAPL", "GOOGL"], "weights": {"AAPL": 0.7, "GOOGL": 0.3}},
+        )
+        assert "Portfolio" in result
+
     def test_screen_stocks(self, ohlcv_df, monkeypatch):
         import finasys as fs
 
@@ -78,6 +102,18 @@ class TestExecuteTool:
 
         result = execute_tool("screen_stocks", {"symbols": ["TEST"], "min_sharpe": -99})
         assert "TEST" in result
+
+    def test_screen_stocks_filters_symbols(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool(
+            "screen_stocks",
+            {"symbols": ["TEST"], "min_sharpe": 999, "max_drawdown": 0, "rsi_min": 100, "rsi_max": 0},
+        )
+        assert result == "[]"
 
     def test_data_quality_check(self, ohlcv_df, monkeypatch):
         import finasys as fs

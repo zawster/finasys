@@ -96,8 +96,10 @@ def flag_outliers(
             q1 = col.quantile(0.25)
             q3 = col.quantile(0.75)
             iqr = q3 - q1
-            expr = ((col < q1 - threshold * iqr) | (col > q3 + threshold * iqr)).fill_null(False).alias(
-                f"{col_name}_outlier"
+            expr = (
+                ((col < q1 - threshold * iqr) | (col > q3 + threshold * iqr))
+                .fill_null(False)
+                .alias(f"{col_name}_outlier")
             )
         exprs.append(symbol_aware(expr, df))
 
