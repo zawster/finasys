@@ -8,8 +8,6 @@ For LangChain integration, see:
     tools = get_tools(symbols=["AAPL", "GOOGL"])
 """
 
-import json
-
 import finasys as fs
 
 
