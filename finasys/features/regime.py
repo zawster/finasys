@@ -14,6 +14,10 @@ __all__ = [
     "breakout_detection",
 ]
 
+# Hurst approximation needs enough observations for multiple lag scales
+# (2, 4, 8, 16) to produce a stable slope instead of a short-window artifact.
+MIN_HURST_WINDOW = 20
+
 
 def volatility_regime(
     df: pl.DataFrame,
@@ -72,8 +76,8 @@ def trend_strength(
     column: str = "close",
 ) -> pl.DataFrame:
     """Append Hurst approximation and directional trend classification."""
-    if window < 20:
-        raise ValueError("window must be at least 20")
+    if window < MIN_HURST_WINDOW:
+        raise ValueError(f"window must be at least {MIN_HURST_WINDOW}")
 
     if has_multi_symbols(df):
         frames = []
