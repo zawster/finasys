@@ -37,6 +37,7 @@ from finasys.features.feature_set import (
     MACD,
     RSI,
     BollingerBands,
+    BreakoutDetection,
     Calendar,
     ClassifyReturns,
     FeatureSet,
@@ -44,13 +45,16 @@ from finasys.features.feature_set import (
     ForwardReturns,
     Lags,
     LogReturns,
+    MarketState,
     Returns,
     RollingKurtosis,
     RollingSkewness,
     RollingStats,
     TailRatio,
+    TrendStrength,
     TripleBarrier,
     VolAdjustedLabels,
+    VolatilityRegime,
     ZscoreReturns,
 )
 
@@ -73,6 +77,12 @@ from finasys.features.indicators import (
     williams_r,
 )
 from finasys.features.lags import lags, validate_no_lookahead
+from finasys.features.regime import (
+    breakout_detection,
+    market_state,
+    trend_strength,
+    volatility_regime,
+)
 from finasys.features.returns import (
     cumulative_returns,
     drawdown,
@@ -176,6 +186,10 @@ __all__ = [
     "cross_rank",
     "cross_percentile",
     "cross_zscore",
+    "volatility_regime",
+    "trend_strength",
+    "market_state",
+    "breakout_detection",
     # Targets
     "forward_returns",
     "classify_returns",
@@ -201,6 +215,10 @@ __all__ = [
     "ClassifyReturns",
     "TripleBarrier",
     "VolAdjustedLabels",
+    "VolatilityRegime",
+    "TrendStrength",
+    "MarketState",
+    "BreakoutDetection",
     "RollingSkewness",
     "RollingKurtosis",
     "TailRatio",
