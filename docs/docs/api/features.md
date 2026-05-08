@@ -163,6 +163,26 @@ df = fs.features.zscore_returns(df, window=63)
 
 ---
 
+## Market Regime Features
+
+### `fs.features.volatility_regime(df, fast_window=21, slow_window=63, column="close")`
+
+Adds `vol_ratio` and `vol_regime`. `vol_regime` is `1` when fast volatility is above slow volatility, otherwise `0`.
+
+### `fs.features.trend_strength(df, window=63, column="close")`
+
+Adds `hurst_{window}` and `trend_direction`. `trend_direction` is `1`, `0`, or `-1`.
+
+### `fs.features.market_state(df, vol_window=21, trend_window=63, column="close")`
+
+Combines volatility and trend into `market_state`, such as `trending_high_vol` or `ranging_low_vol`.
+
+### `fs.features.breakout_detection(df, window=20, n_std=2.0, column="close")`
+
+Adds `breakout_{window}` and `breakout_strength_{window}`.
+
+---
+
 ## Returns
 
 ### `fs.features.returns(df, periods=1, column="close")`
@@ -272,6 +292,7 @@ Available step classes:
 | **Features** | `RollingStats`, `Lags`, `Calendar` |
 | **Targets** | `ForwardReturns`, `ClassifyReturns`, `TripleBarrier`, `VolAdjustedLabels` |
 | **Distributions** | `RollingSkewness`, `RollingKurtosis`, `TailRatio`, `ZscoreReturns` |
+| **Regime** | `VolatilityRegime`, `TrendStrength`, `MarketState`, `BreakoutDetection` |
 
 ```python
 # ML pipeline with targets and distribution features
