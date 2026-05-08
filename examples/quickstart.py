@@ -18,7 +18,7 @@ print(f"\n--- LLM Summary ---\n{summary}")
 
 # 4. Get OpenAI function-calling tool definitions
 tools = fs.agents.tools(symbols=["AAPL"])
-print(f"\n--- Agent Tools ---")
+print("\n--- Agent Tools ---")
 for t in tools:
     print(f"  - {t['function']['name']}: {t['function']['description'][:60]}...")
 
