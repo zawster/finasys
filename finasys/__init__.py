@@ -21,7 +21,9 @@ Quick start::
 from finasys import (
     agents,  # noqa: F401
     features,  # noqa: F401
+    portfolio,  # noqa: F401
     profiler,  # noqa: F401
+    quality,  # noqa: F401
     stats,  # noqa: F401
 )
 from finasys.__metadata__ import __version__
@@ -35,6 +37,8 @@ __all__ = [
     "features",
     "agents",
     "stats",
+    "portfolio",
     "profiler",
+    "quality",
     "FeatureSet",
 ]
