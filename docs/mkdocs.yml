@@ -24,6 +24,8 @@ nav:
       - Sources: api/sources.md
       - Features: api/features.md
       - Stats: api/stats.md
+      - Portfolio: api/portfolio.md
+      - Quality: api/quality.md
       - Profiler: api/profiler.md
       - Agents: api/agents.md
   - Tutorials:
