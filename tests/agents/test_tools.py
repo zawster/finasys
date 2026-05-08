@@ -35,3 +35,8 @@ def test_tools_has_expected_functions():
     assert "get_technical_indicators" in names
     assert "compare_symbols" in names
     assert "get_summary" in names
+    assert "assess_risk" in names
+    assert "portfolio_analysis" in names
+    assert "screen_stocks" in names
+    assert "data_quality_check" in names
+    assert "profile_stock" in names

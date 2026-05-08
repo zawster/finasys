@@ -52,6 +52,51 @@ class TestExecuteTool:
         assert isinstance(result, str)
         assert "$" in result
 
+    def test_assess_risk(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("assess_risk", {"symbol": "TEST"})
+        assert "Sharpe" in result
+
+    def test_portfolio_analysis(self, multi_symbol_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: multi_symbol_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("portfolio_analysis", {"symbols": ["AAPL", "GOOGL"]})
+        assert "Portfolio" in result
+
+    def test_screen_stocks(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("screen_stocks", {"symbols": ["TEST"], "min_sharpe": -99})
+        assert "TEST" in result
+
+    def test_data_quality_check(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("data_quality_check", {"symbol": "TEST"})
+        assert "null_counts" in result
+
+    def test_profile_stock(self, ohlcv_df, monkeypatch):
+        import finasys as fs
+
+        monkeypatch.setattr(fs, "load", lambda *a, **kw: ohlcv_df)
+        from finasys.agents.tools import execute_tool
+
+        result = execute_tool("profile_stock", {"symbol": "TEST"})
+        assert "DATA PROFILE" in result
+
 
 class TestContextEdgeCases:
     """Cover remaining keyword paths in context()."""
