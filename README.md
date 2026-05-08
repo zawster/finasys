@@ -112,6 +112,19 @@ df = fs.features.tail_ratio(df, window=30)
 df = fs.features.zscore_returns(df, window=30)
 ```
 
+### Market Regime Features (`fs.features`)
+- Volatility regimes from fast/slow rolling volatility
+- Trend strength via rolling Hurst-style approximation
+- Combined market states such as trending/high-volatility or ranging/low-volatility
+- Breakout flags and strength scores
+
+```python
+df = fs.features.volatility_regime(df, fast_window=21, slow_window=63)
+df = fs.features.trend_strength(df, window=63)
+df = fs.features.market_state(df)
+df = fs.features.breakout_detection(df, window=20)
+```
+
 ### Risk & Performance Metrics (`fs.stats`)
 - Sharpe, Sortino, Calmar ratios
 - Value at Risk (historical, parametric, Cornish-Fisher)
@@ -129,6 +142,32 @@ cvar = fs.stats.cvar(df, confidence=0.95)                   # => -0.0285
 # Rolling metrics (ML features)
 df = fs.stats.sharpe_ratio(df, window=63)                   # adds sharpe_63
 df = fs.stats.value_at_risk(df, window=63)                  # adds var_63
+```
+
+### Portfolio Analytics (`fs.portfolio`)
+- Correlation and covariance matrices for multi-symbol DataFrames
+- Pairwise rolling correlation
+- Weighted and equal-weight portfolio returns
+- Minimum-variance portfolio weights
+
+```python
+df = fs.load(["AAPL", "GOOGL", "MSFT"], start="2024-01-01")
+corr = fs.portfolio.correlation_matrix(df)
+portfolio = fs.portfolio.equal_weight_returns(df)
+weights = fs.portfolio.minimum_variance_weights(df)
+```
+
+### Data Quality Checks (`fs.quality`)
+- Missing business-day gaps
+- Outlier flags
+- Suspected split flags
+- Completeness reports with nulls, duplicates, zero-volume days, gaps, and flags
+
+```python
+gaps = fs.quality.detect_gaps(df)
+df = fs.quality.flag_outliers(df)
+df = fs.quality.detect_splits(df)
+report = fs.quality.completeness_report(df)
 ```
 
 ### Smart Profiler (`fs.profiler`)
@@ -154,6 +193,7 @@ report.to_dict()                  # JSON-serializable
 ### AI Agent Tools (`fs.agents`)
 - LLM-ready summaries of financial DataFrames
 - Tool definitions in OpenAI function-calling format
+- Extended tools for risk reports, portfolio analysis, stock screening, quality checks, and profile summaries
 - Context extraction for RAG-style usage
 - Schema descriptions for system prompts
 - LangChain integration (optional)
@@ -167,7 +207,7 @@ lc_tools = get_tools(symbols=["AAPL"])
 ```
 
 ### Composable Pipelines (`fs.FeatureSet`)
-Serializable, reproducible feature pipelines with 17 built-in step classes.
+Serializable, reproducible feature pipelines with 21 built-in step classes.
 
 ```python
 pipeline = fs.FeatureSet([
@@ -175,6 +215,7 @@ pipeline = fs.FeatureSet([
     fs.features.Returns(periods=[1, 5, 21]),
     fs.features.RollingStats(windows=[5, 21]),
     fs.features.RollingKurtosis(window=30),
+    fs.features.VolatilityRegime(),
     fs.features.ForwardReturns(periods=[1, 5]),
     fs.features.TripleBarrier(profit_take=0.02, stop_loss=0.02),
 ])
